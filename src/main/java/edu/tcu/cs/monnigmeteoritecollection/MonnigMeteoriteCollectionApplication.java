@@ -8,6 +8,9 @@ public class MonnigMeteoriteCollectionApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(MonnigMeteoriteCollectionApplication.class, args);
+
     }
+
+    
 
 }
