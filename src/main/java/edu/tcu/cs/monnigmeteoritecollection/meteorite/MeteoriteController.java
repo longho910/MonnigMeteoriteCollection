@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.*;
 
 import edu.tcu.cs.monnigmeteoritecollection.system.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -12,8 +11,11 @@ import java.util.List;
 @RequestMapping("${api.endpoint.base-url}/meteorites?searchTextFromUser")
 public class MeteoriteController {
 
-    final MeteoriteService meteoriteService = new MeteoriteService(null);
+    private final MeteoriteService meteoriteService;
 
+    public MeteoriteController(MeteoriteService meteoriteService) {
+        this.meteoriteService = meteoriteService;
+    }
     @GetMapping
     public Result findAllMeteorites() {
         
