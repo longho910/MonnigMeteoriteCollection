@@ -16,10 +16,8 @@ public class MeteoriteController {
 
     @GetMapping
     public Result findAllMeteorites() {
-        // List<Wizard> foundWizards = this.wizardService.findAll();
-        List<Meteorite> meteoriteList = this.meteoriteService.findAll();
-        // convert foundWizards to foundWizardDto
         
+        List<Meteorite> meteoriteList = this.meteoriteService.findAll();
         
         return new Result(true, StatusCode.SUCCESS, "Find All Success", meteoriteList);
     }

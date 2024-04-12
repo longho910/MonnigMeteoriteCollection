@@ -16,8 +16,6 @@ public class MeteoriteService {
     }
 
     public List<Meteorite> findAll() {
-
         return this.meteoriteRepository.findAll();
-
     }
 }
