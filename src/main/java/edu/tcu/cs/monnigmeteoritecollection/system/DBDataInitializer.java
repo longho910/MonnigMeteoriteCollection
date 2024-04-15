@@ -9,7 +9,9 @@ import java.math.BigDecimal;
 
 @Component
 public class DBDataInitializer implements CommandLineRunner {
+    
     private final MeteoriteRepository meteoriteRepository;
+
     public DBDataInitializer(MeteoriteRepository meteoriteRepository) {
         this.meteoriteRepository = meteoriteRepository;
     }
