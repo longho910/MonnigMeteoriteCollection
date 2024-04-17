@@ -1,5 +1,5 @@
-package edu.tcu.cs.monnigmeteoritecollection.monnigadmin;
+package edu.tcu.cs.monnigmeteoritecollection.curator;
 
-public class AdminService {
+public class CuratorService {
     
 }
