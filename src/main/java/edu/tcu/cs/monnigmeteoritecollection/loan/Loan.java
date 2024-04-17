@@ -1,10 +1,10 @@
-package edu.tcu.cs.monnigmeteoritecollection.curator;
+package edu.tcu.cs.monnigmeteoritecollection.loan;
 
 import java.io.Serializable;
 
 import jakarta.persistence.Id;
 
-public class Curator implements Serializable{
+public class Loan implements Serializable{
     
     @Id
     private long id;
