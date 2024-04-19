@@ -1,5 +1,6 @@
 package edu.tcu.cs.monnigmeteoritecollection.loan;
 
+
 import edu.tcu.cs.monnigmeteoritecollection.meteorite.Meteorite;
 import jakarta.persistence.*;
 
@@ -123,17 +124,3 @@ public class Loan implements Serializable {
         return this.meteorites.size();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

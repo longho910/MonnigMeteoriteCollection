@@ -1,4 +1,8 @@
 package edu.tcu.cs.monnigmeteoritecollection.loan;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface LoanRepository {
+
+public interface LoanRepository extends JpaRepository<Loan, Integer> {
+  
 }
+
