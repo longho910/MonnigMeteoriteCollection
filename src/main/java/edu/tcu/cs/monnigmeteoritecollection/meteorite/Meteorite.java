@@ -1,7 +1,9 @@
 package edu.tcu.cs.monnigmeteoritecollection.meteorite;
 
+import edu.tcu.cs.monnigmeteoritecollection.loan.Loan;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -16,9 +18,30 @@ public class Meteorite implements Serializable {
     private String monnigNumber;
     private String country;
     private String _class;
-    private String group;
+    private String _group;
     private Integer yearFound;
     private BigDecimal weight;
+
+    private String howFound;
+
+    public String getHowFound() {
+        return howFound;
+    }
+
+    public Loan getLoan() {
+        return loan;
+    }
+
+    public void setLoan(Loan loan) {
+        this.loan = loan;
+    }
+
+    @ManyToOne
+    private Loan loan;
+
+    public void setHowFound(String howFound) {
+        this.howFound = howFound;
+    }
 
     public Meteorite() {
     }
@@ -63,12 +86,12 @@ public class Meteorite implements Serializable {
         this._class = _class;
     }
 
-    public String getGroup() {
-        return group;
+    public String get_group() {
+        return _group;
     }
 
-    public void setGroup(String group) {
-        this.group = group;
+    public void set_group(String group) {
+        this._group = group;
     }
 
     public Integer getYearFound() {
