@@ -10,18 +10,19 @@ public class LoanToLoanDtoConverter implements Converter<Loan, LoanDto> {
 
     @Override
     public LoanDto convert(Loan source) {
-        LoanDto loanDto = new LoanDto(source.getId(),
-                source.getName(),
-                source.getInstitution(),
-                source.getEmail(),
-                source.getPhone(),
-                source.getAddress(),
-                source.getLoanStartDate(),
-                source.getLoanDueDate(),
-                source.getNumberOfMeteorites(),
-
-                source.getNotes(),
-                source.getExtraFiles());
+        LoanDto loanDto = new LoanDto(
+            source.getId(),
+            source.getName(),
+            source.getInstitution(),
+            source.getEmail(),
+            source.getPhone(),
+            source.getAddress(),
+            source.getLoanStartDate(),
+            source.getLoanDueDate(),
+            source.getNumberOfMeteorites(),
+            source.getNotes(),
+            source.getExtraFiles()
+        );
         return loanDto;
     }
 }
