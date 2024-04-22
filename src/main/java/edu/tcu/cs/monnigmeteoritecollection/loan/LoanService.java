@@ -21,7 +21,7 @@ public class LoanService {
 
     public Loan findById(Integer loanId) {
         return this.loanRepository.findById(loanId)
-                .orElseThrow(()->new ObjectNotFoundException("meteorite", String.valueOf(loanId)));
+                .orElseThrow(()->new ObjectNotFoundException("loan", String.valueOf(loanId)));
     }
 
     public Loan save(Loan loan) {
