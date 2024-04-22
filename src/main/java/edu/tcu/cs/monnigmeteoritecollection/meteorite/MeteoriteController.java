@@ -5,6 +5,7 @@ import edu.tcu.cs.monnigmeteoritecollection.meteorite.converter.MeteoriteToMeteo
 import edu.tcu.cs.monnigmeteoritecollection.meteorite.dto.MeteoriteDto;
 import edu.tcu.cs.monnigmeteoritecollection.system.Result;
 import edu.tcu.cs.monnigmeteoritecollection.system.StatusCode;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -43,6 +44,45 @@ public class MeteoriteController {
 
         return new Result(true, StatusCode.SUCCESS, "Find All Success", meteoriteDtoList);
     }
+
+
+    @PostMapping
+    public Result addMeteorite(@Valid @RequestBody MeteoriteDto meteoriteDto) {
+        // convert artifactDto to artifact
+        Meteorite newMeteorite = this.meteoriteDtoToMeteoriteConverter.convert(meteoriteDto);
+        Meteorite savedMeteorite = this.meteoriteService.save(newMeteorite);
+
+        MeteoriteDto savedMeteoriteDto = this.meteoriteToMeteoriteDtoConverter.convert(savedMeteorite);
+
+        return new Result(true, StatusCode.SUCCESS, "Add Success", savedMeteoriteDto);
+    }
+
+    @PutMapping("/{meteoriteId}")
+    public Result updateMeteorite(@PathVariable String meteoriteId, @Valid @RequestBody MeteoriteDto meteoriteDto) {
+        // convert meteoriteDto to meteorite to use meteoriteService
+        Meteorite update = this.meteoriteDtoToMeteoriteConverter.convert(meteoriteDto);
+        Meteorite updated = this.meteoriteService.update(meteoriteId, update);
+
+        MeteoriteDto updatedDto = this.meteoriteToMeteoriteDtoConverter.convert(updated);
+        return new Result(true, StatusCode.SUCCESS, "Update Success", updatedDto);
+    }
+
+    @DeleteMapping("/{meteoriteId}")
+    public Result deleteMeteorite(@PathVariable String meteoriteId) {
+        this.meteoriteService.delete(meteoriteId);
+        return new Result(true, StatusCode.SUCCESS, "Delete Success");
+    }
+
+    @PostMapping("/{meteoriteId}/sub")
+    public Result createSubsample(@PathVariable String meteoriteId, @Valid @RequestBody MeteoriteDto meteoriteDto) {
+        Meteorite newMeteorite = this.meteoriteDtoToMeteoriteConverter.convert(meteoriteDto);
+        Meteorite savedMeteorite = this.meteoriteService.saveSub(meteoriteId, newMeteorite);
+
+        MeteoriteDto savedMeteoriteDto = this.meteoriteToMeteoriteDtoConverter.convert(savedMeteorite);
+
+        return new Result(true, StatusCode.SUCCESS, "Add Sub Success", savedMeteoriteDto);
+    }
+
 }
 
 
