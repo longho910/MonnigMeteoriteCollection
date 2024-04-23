@@ -19,6 +19,28 @@ public class LoanService {
         return this.loanRepository.findAll();
     }
 
+    public List<Loan> findAllNonArchived() {
+        List<Loan> loanList = this.loanRepository.findAll();
+        for (Loan elem : loanList) {
+            // remove all ARCHIVED
+            if (elem.isArchived()) {
+                loanList.remove(elem);
+            }
+        }
+        return loanList;
+    }
+
+    public List<Loan> findAllArchived() {
+        List<Loan> loanList = this.loanRepository.findAll();
+        for (Loan elem : loanList) {
+            // remove all NON-ARCHIVED
+            if (!(elem.isArchived())) {
+                loanList.remove(elem);
+            }
+        }
+        return loanList;
+    }
+
     public Loan findById(Integer loanId) {
         return this.loanRepository.findById(loanId)
                 .orElseThrow(()->new ObjectNotFoundException("loan", String.valueOf(loanId)));
