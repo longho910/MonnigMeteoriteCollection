@@ -9,6 +9,7 @@ import edu.tcu.cs.monnigmeteoritecollection.curator.dto.CuratorDto;
 @Component
 public class CuratorDtoToCuratorConverter implements Converter<CuratorDto, Curator> {
 
+    @SuppressWarnings("null")
     @Override
     public Curator convert(CuratorDto source) {
         Curator Curator = new Curator();
