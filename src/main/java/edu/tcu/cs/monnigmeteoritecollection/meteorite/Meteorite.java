@@ -37,7 +37,7 @@ public class Meteorite implements Serializable {
     private List<SampleHistory> sampleHistory = new ArrayList<>();
 
     @ManyToOne
-    private Loan loan;
+    private Loan loan;   // store the loanId as opposed to entire Loan
 
 
     // constructor ----------------------------------------------------------------------------------------------------

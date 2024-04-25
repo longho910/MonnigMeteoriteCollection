@@ -1,9 +1,13 @@
 package edu.tcu.cs.monnigmeteoritecollection.meteorite.converter;
 
+import edu.tcu.cs.monnigmeteoritecollection.loan.Loan;
 import edu.tcu.cs.monnigmeteoritecollection.loan.converter.LoanDtoToLoanConverter;
+import edu.tcu.cs.monnigmeteoritecollection.loan.dto.LoanDto;
 import edu.tcu.cs.monnigmeteoritecollection.meteorite.Meteorite;
 import edu.tcu.cs.monnigmeteoritecollection.meteorite.dto.MeteoriteDto;
+import edu.tcu.cs.monnigmeteoritecollection.samplehistory.SampleHistory;
 import edu.tcu.cs.monnigmeteoritecollection.samplehistory.converter.SampleHistoryDtoToSampleHistoryConverter;
+import edu.tcu.cs.monnigmeteoritecollection.samplehistory.dto.SampleHistoryDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +18,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MeteoriteDtoToMeteoriteConverter implements Converter<MeteoriteDto, Meteorite> {
 
-    private final LoanDtoToLoanConverter loanDtoToLoanConverter;
-    private final SampleHistoryDtoToSampleHistoryConverter sampleHistoryDtoToSampleHistoryConverter;
-
-    public MeteoriteDtoToMeteoriteConverter(LoanDtoToLoanConverter loanDtoToLoanConverter, SampleHistoryDtoToSampleHistoryConverter sampleHistoryDtoToSampleHistoryConverter) {
-        this.loanDtoToLoanConverter = loanDtoToLoanConverter;
-        this.sampleHistoryDtoToSampleHistoryConverter = sampleHistoryDtoToSampleHistoryConverter;
+    public MeteoriteDtoToMeteoriteConverter() {
     }
 
     @SuppressWarnings("null")
@@ -37,9 +36,9 @@ public class MeteoriteDtoToMeteoriteConverter implements Converter<MeteoriteDto,
 
         meteorite.setHowFound(source.howFound());
         // convert sampleHistoryDtoList -> sampleHistoryList, and assign to meteorite
-        meteorite.setSampleHistory(sampleHistoryDtoToSampleHistoryConverter.convertList(source.sampleHistory()));
+        meteorite.setSampleHistory(convertHistoryList(source.sampleHistory()));
         // convert loanDto -> loan and assign
-        meteorite.setLoan(loanDtoToLoanConverter.convert(source.loan()));
+        meteorite.setLoan(convertLoan(source.loan()));
 
         return meteorite;
     }
@@ -52,5 +51,51 @@ public class MeteoriteDtoToMeteoriteConverter implements Converter<MeteoriteDto,
         }
 
         return meteoriteList;
+    }
+
+    public Loan convertLoan(LoanDto source) {
+        Loan loan = new Loan();
+        
+        loan.setId(source.id());
+        loan.setName(source.name());
+        loan.setInstitution(source.institution());
+        loan.setEmail(source.email());
+        loan.setPhone(source.phone());
+        loan.setAddress(source.address());
+        loan.setLoanStartDate(source.loanStartDate());
+        loan.setLoanDueDate(source.loanDueDate());
+
+        loan.setArchived(source.isArchived());
+
+        loan.setMeteorites(
+            convertList(source.meteoriteDtoList())
+        );
+
+        loan.setNotes(source.notes());
+        loan.setExtraFiles(source.extraFiles());
+
+        return loan;
+    }
+
+    public SampleHistory convertHistory(SampleHistoryDto source) {
+        SampleHistory sampleHistory = new SampleHistory();
+
+        sampleHistory.setDate(source.date());
+        sampleHistory.setCategory(source.category());
+        sampleHistory.setNotes(source.notes());
+        
+        sampleHistory.setMeteorite(convert(source.meteorite()));
+
+        return sampleHistory;
+    }
+
+    public List<SampleHistory> convertHistoryList(List<SampleHistoryDto> source) {
+        List<SampleHistory> sampleHistoryList = new ArrayList<>();
+
+        for (SampleHistoryDto elem : source) {
+            sampleHistoryList.add(convertHistory(elem));
+        }
+
+        return sampleHistoryList;
     }
 }

@@ -4,12 +4,16 @@ import edu.tcu.cs.monnigmeteoritecollection.loan.Loan;
 import edu.tcu.cs.monnigmeteoritecollection.loan.dto.LoanDto;
 import edu.tcu.cs.monnigmeteoritecollection.meteorite.converter.MeteoriteToMeteoriteDtoConverter;
 
+import org.hibernate.validator.internal.util.stereotypes.Lazy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
 public class LoanToLoanDtoConverter implements Converter<Loan, LoanDto> {
 
+    @Autowired
+    @Lazy
     private final MeteoriteToMeteoriteDtoConverter meteoriteToMeteoriteDtoConverter;
 
     public LoanToLoanDtoConverter(MeteoriteToMeteoriteDtoConverter meteoriteToMeteoriteDtoConverter) {
