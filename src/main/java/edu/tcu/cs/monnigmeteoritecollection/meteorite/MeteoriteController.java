@@ -73,7 +73,7 @@ public class MeteoriteController {
 
     // UC-9, UC-4
     // updates any number of attributes of a meteorite (includes SampleHistory and Loan)
-    // sample history will need to be created on the frontend, Loan will be created at a separate endpoint
+    // however, both SampleHistory and Loans are created on separate endpoints
     @PutMapping("/{meteoriteId}")
     public Result updateMeteorite(@PathVariable String meteoriteId, @Valid @RequestBody MeteoriteDto meteoriteDto) {
         // convert meteoriteDto to meteorite to use meteoriteService

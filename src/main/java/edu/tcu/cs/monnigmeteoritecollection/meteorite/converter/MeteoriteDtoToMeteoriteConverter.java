@@ -3,7 +3,6 @@ package edu.tcu.cs.monnigmeteoritecollection.meteorite.converter;
 import edu.tcu.cs.monnigmeteoritecollection.loan.converter.LoanDtoToLoanConverter;
 import edu.tcu.cs.monnigmeteoritecollection.meteorite.Meteorite;
 import edu.tcu.cs.monnigmeteoritecollection.meteorite.dto.MeteoriteDto;
-import edu.tcu.cs.monnigmeteoritecollection.samplehistory.converter.SampleHistoryDtoToSampleHistoryConverter;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -13,7 +12,7 @@ public class MeteoriteDtoToMeteoriteConverter implements Converter<MeteoriteDto,
 
     private final LoanDtoToLoanConverter loanDtoToLoanConverter;
 
-    public MeteoriteDtoToMeteoriteConverter(LoanDtoToLoanConverter loanDtoToLoanConverter, SampleHistoryDtoToSampleHistoryConverter sampleHistoryDtoToSampleHistoryConverter) {
+    public MeteoriteDtoToMeteoriteConverter(LoanDtoToLoanConverter loanDtoToLoanConverter) {
         this.loanDtoToLoanConverter = loanDtoToLoanConverter;
     }
 
