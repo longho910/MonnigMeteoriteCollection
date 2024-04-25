@@ -14,6 +14,7 @@ public class MeteoriteToMeteoriteDtoConverter implements Converter<Meteorite, Me
         this.loanToLoanDtoConverter = loanToLoanDtoConverter;
     }
 
+    @SuppressWarnings("null")
     @Override
     public MeteoriteDto convert(Meteorite source) {
         MeteoriteDto meteoriteDto = new MeteoriteDto(source.getId(),

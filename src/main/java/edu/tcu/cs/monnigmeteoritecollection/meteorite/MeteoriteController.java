@@ -8,7 +8,6 @@ import edu.tcu.cs.monnigmeteoritecollection.system.StatusCode;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
-import ch.qos.logback.core.status.Status;
 
 import java.util.ArrayList;
 import java.util.List;
