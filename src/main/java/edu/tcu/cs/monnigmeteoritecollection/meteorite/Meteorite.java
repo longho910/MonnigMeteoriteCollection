@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 public class Meteorite implements Serializable {
     @Id
     private Long id;
+    private Integer loanId;
 
     private String name;
 
@@ -54,6 +55,19 @@ public class Meteorite implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getLoanId() {
+        return loanId;
+    }
+
+    public void setLoanId(Integer loanId) {
+        this.loanId = loanId;
+    }
+
+    // rather than using setLoanId(null), I thought this would be clearer in other classes
+    public void wipeLoanId() {
+        this.loanId = null;
     }
 
     public String getName() {
