@@ -9,6 +9,7 @@ import edu.tcu.cs.monnigmeteoritecollection.curator.dto.CuratorDto;
 @Component
 public class CuratorToCuratorDtoConverter implements Converter<Curator, CuratorDto> {
 
+    @SuppressWarnings("null")
     @Override
     public CuratorDto convert(Curator source) {
         // We are not setting password in DTO.
