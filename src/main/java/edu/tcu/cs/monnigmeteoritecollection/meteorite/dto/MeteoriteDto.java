@@ -1,9 +1,11 @@
 package edu.tcu.cs.monnigmeteoritecollection.meteorite.dto;
 
 import edu.tcu.cs.monnigmeteoritecollection.loan.dto.LoanDto;
+import edu.tcu.cs.monnigmeteoritecollection.samplehistory.dto.SampleHistoryDto;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public record MeteoriteDto(
         Long id,
@@ -19,7 +21,7 @@ public record MeteoriteDto(
         BigDecimal weight,
 
         String howFound,
-        // List<SampleHistoryDto> sampleHistory,
+        List<SampleHistoryDto> sampleHistory,
         LoanDto loan
 ) {
 

@@ -1,7 +1,5 @@
 package edu.tcu.cs.monnigmeteoritecollection.loan.converter;
 
-import java.util.ArrayList;
-
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -34,7 +32,10 @@ public class LoanDtoToLoanConverter implements Converter<LoanDto, Loan> {
 
         loan.setArchived(source.isArchived());
 
-        // set meteorites
+        loan.setMeteorites(
+            meteoriteDtoToMeteoriteConverter.convertList(source.meteoriteDtoList())
+        );
+
         loan.setNotes(source.notes());
         loan.setExtraFiles(source.extraFiles());
 

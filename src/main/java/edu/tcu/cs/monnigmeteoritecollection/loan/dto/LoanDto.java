@@ -1,5 +1,7 @@
 package edu.tcu.cs.monnigmeteoritecollection.loan.dto;
 
+import java.util.List;
+import edu.tcu.cs.monnigmeteoritecollection.meteorite.dto.MeteoriteDto;;;
 
 public record LoanDto(
     Integer id,
@@ -13,7 +15,7 @@ public record LoanDto(
 
     Boolean isArchived,
 
-    Integer numberOfMeteorites,
+    List<MeteoriteDto> meteoriteDtoList,
     String notes,
     String extraFiles
 ) {
