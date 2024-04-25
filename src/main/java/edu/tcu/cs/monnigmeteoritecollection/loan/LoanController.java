@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.tcu.cs.monnigmeteoritecollection.loan.converter.*;
 import edu.tcu.cs.monnigmeteoritecollection.system.Result;
 import edu.tcu.cs.monnigmeteoritecollection.system.StatusCode;
+import jakarta.validation.Valid;
 import edu.tcu.cs.monnigmeteoritecollection.loan.dto.LoanDto;
 
 
@@ -21,13 +23,11 @@ import edu.tcu.cs.monnigmeteoritecollection.loan.dto.LoanDto;
 @RequestMapping("${api.endpoint.base-url}/loans")
 public class LoanController {
     private final LoanService loanService;
-    private final LoanRepository loanRepository;
     private final LoanToLoanDtoConverter loanToLoanDtoConverter;
     private final LoanDtoToLoanConverter loanDtoToLoanConverter;
 
-    public LoanController(LoanService loanService, LoanToLoanDtoConverter loanToLoanDtoConverter, LoanDtoToLoanConverter loanDtoToLoanConverter, LoanRepository loanRepository) {
+    public LoanController(LoanService loanService, LoanToLoanDtoConverter loanToLoanDtoConverter, LoanDtoToLoanConverter loanDtoToLoanConverter) {
         this.loanService = loanService;
-        this.loanRepository = loanRepository;
         this.loanDtoToLoanConverter = loanDtoToLoanConverter;
         this.loanToLoanDtoConverter = loanToLoanDtoConverter;
     }
@@ -80,7 +80,19 @@ public class LoanController {
         return new Result(true, StatusCode.SUCCESS, "Find All Non-Archived Loans Success", loanDtoList);
     }
 
-    // update loan -- this method also handles ARCHIVE LOAN
+    // create loan, returns a copy of the saved loan in the SUCCESS Result
+    @PostMapping
+    public Result addLoan(@Valid @RequestBody LoanDto loanDto) {
+        // convert loanDto to loan
+        Loan newLoan = this.loanDtoToLoanConverter.convert(loanDto);
+        Loan savedLoan = this.loanService.save(newLoan);
+
+        LoanDto savedLoanDto = this.loanToLoanDtoConverter.convert(savedLoan);
+
+        return new Result(true, StatusCode.SUCCESS, "Add Success", savedLoanDto);
+    }
+
+    // update loan -- this method also handles ARCHIVE LOAN (by sending an empty loanDto with only isArchived changed)
     @PutMapping("/{loanId}")
     public Result updateLoan(@PathVariable Integer loanId, @Validated @RequestBody LoanDto loanDto) {
         Loan update = this.loanDtoToLoanConverter.convert(loanDto);

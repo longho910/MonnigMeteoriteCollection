@@ -1,11 +1,5 @@
 package edu.tcu.cs.monnigmeteoritecollection.loan.dto;
 
-import edu.tcu.cs.monnigmeteoritecollection.meteorite.Meteorite;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.OneToMany;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public record LoanDto(
     Integer id,

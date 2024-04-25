@@ -2,11 +2,13 @@ package edu.tcu.cs.monnigmeteoritecollection.meteorite.converter;
 
 import edu.tcu.cs.monnigmeteoritecollection.meteorite.Meteorite;
 import edu.tcu.cs.monnigmeteoritecollection.meteorite.dto.MeteoriteDto;
+
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MeteoriteDtoToMeteoriteConverter implements Converter<MeteoriteDto, Meteorite> {
+    @SuppressWarnings("null")
     @Override
     public Meteorite convert(MeteoriteDto source) {
         Meteorite meteorite = new Meteorite();

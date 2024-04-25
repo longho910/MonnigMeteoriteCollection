@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoanToLoanDtoConverter implements Converter<Loan, LoanDto> {
 
+    @SuppressWarnings("null")
     @Override
     public LoanDto convert(Loan source) {
         LoanDto loanDto = new LoanDto(
