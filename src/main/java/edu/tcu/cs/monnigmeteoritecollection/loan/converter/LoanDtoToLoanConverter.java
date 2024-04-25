@@ -25,8 +25,9 @@ public class LoanDtoToLoanConverter implements Converter<LoanDto, Loan> {
 
         loan.setArchived(source.isArchived());
 
-        loan.setExtraFiles(source.extraFiles());
+        // don't touch 'List<Meteorite> meteorites' attribute. Meteorites are added to Loans separately.
         loan.setNotes(source.notes());
+        loan.setExtraFiles(source.extraFiles());
 
         return loan;
     }
