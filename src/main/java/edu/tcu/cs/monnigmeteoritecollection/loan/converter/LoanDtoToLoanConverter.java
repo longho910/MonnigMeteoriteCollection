@@ -9,6 +9,7 @@ import edu.tcu.cs.monnigmeteoritecollection.loan.dto.LoanDto;
 @Component
 public class LoanDtoToLoanConverter implements Converter<LoanDto, Loan> {
 
+    @SuppressWarnings("null")
     @Override
     public Loan convert(LoanDto source) {
         Loan loan = new Loan();

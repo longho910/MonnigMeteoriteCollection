@@ -1,7 +1,7 @@
 package edu.tcu.cs.monnigmeteoritecollection.meteorite.dto;
 
-import edu.tcu.cs.monnigmeteoritecollection.loan.Loan;
 import edu.tcu.cs.monnigmeteoritecollection.loan.dto.LoanDto;
+import edu.tcu.cs.monnigmeteoritecollection.samplehistory.dto.SampleHistoryDto;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.math.BigDecimal;
@@ -11,9 +11,6 @@ public record MeteoriteDto(
 
         @NotEmpty(message = "name is required.")
         String name,
-
-        Integer loanId,         // added loanId
-
         @NotEmpty(message = "monnigNumber is required.")
         String monnigNumber,
         String country,
@@ -23,6 +20,8 @@ public record MeteoriteDto(
         BigDecimal weight,
 
         String howFound,
-        LoanDto loan) {
+        SampleHistoryDto sampleHistory,
+        LoanDto loan
+) {
 
 }

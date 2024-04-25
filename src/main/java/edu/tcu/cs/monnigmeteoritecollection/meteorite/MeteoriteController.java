@@ -46,7 +46,7 @@ public class MeteoriteController {
         return new Result(true, StatusCode.SUCCESS, "Find All Success", meteoriteDtoList);
     }
 
-    // use case 16
+    // UC-16
     @GetMapping
     public Result findAllMeteoritesOnLoan() {
         List<Meteorite> foundMeteorites = this.meteoriteService.findAllOnLoan();
@@ -59,7 +59,7 @@ public class MeteoriteController {
         return new Result(true, StatusCode.SUCCESS, "Find All On Loan Success", meteoriteDtoList);
     }
 
-
+    // this endpoint handles creation of meteorites, which are expected to be initialized with NULL SampleHistory and Loan attributes
     @PostMapping
     public Result addMeteorite(@Valid @RequestBody MeteoriteDto meteoriteDto) {
         // convert artifactDto to artifact
@@ -71,6 +71,8 @@ public class MeteoriteController {
         return new Result(true, StatusCode.SUCCESS, "Add Success", savedMeteoriteDto);
     }
 
+    // UC-9, UC-4
+    // updates any number of attributes of a meteorite (includes SampleHistory and Loan)
     @PutMapping("/{meteoriteId}")
     public Result updateMeteorite(@PathVariable String meteoriteId, @Valid @RequestBody MeteoriteDto meteoriteDto) {
         // convert meteoriteDto to meteorite to use meteoriteService
@@ -85,6 +87,13 @@ public class MeteoriteController {
     public Result deleteMeteorite(@PathVariable String meteoriteId) {
         this.meteoriteService.delete(meteoriteId);
         return new Result(true, StatusCode.SUCCESS, "Delete Success");
+    }
+
+    // UC-10, resets SampleHistory attribute to NULL
+    @DeleteMapping("/{meteoriteId}/samplehistory")
+    public Result deleteSampleHistory(@PathVariable String meteoriteId) {
+        this.meteoriteService.deleteSampleHistory(meteoriteId);
+        return new Result(true, StatusCode.SUCCESS, "Delete Sample History Success");
     }
 
     @PostMapping("/{meteoriteId}/sub")
