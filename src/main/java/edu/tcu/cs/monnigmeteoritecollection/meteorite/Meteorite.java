@@ -6,6 +6,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -28,6 +29,7 @@ public class Meteorite implements Serializable {
 
     // further attributes to assist with use cases
     private String howFound;
+    @OneToOne(mappedBy = "meteorite")
     private SampleHistory sampleHistory;
     @ManyToOne
     private Loan loan;
