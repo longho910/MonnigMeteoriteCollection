@@ -4,6 +4,9 @@ import edu.tcu.cs.monnigmeteoritecollection.loan.converter.LoanToLoanDtoConverte
 import edu.tcu.cs.monnigmeteoritecollection.meteorite.Meteorite;
 import edu.tcu.cs.monnigmeteoritecollection.meteorite.dto.MeteoriteDto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -35,5 +38,15 @@ public class MeteoriteToMeteoriteDtoConverter implements Converter<Meteorite, Me
         );
 
         return meteoriteDto;
+    }
+
+    public List<MeteoriteDto> convertList(List<Meteorite> source) {
+        List<MeteoriteDto> meteoriteDtoList = new ArrayList<>();
+
+        for (Meteorite elem : source) {
+            meteoriteDtoList.add(convert(elem));
+        }
+
+        return meteoriteDtoList;
     }
 }

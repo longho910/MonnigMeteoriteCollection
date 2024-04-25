@@ -1,13 +1,22 @@
 package edu.tcu.cs.monnigmeteoritecollection.loan.converter;
 
+import java.util.ArrayList;
+
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 import edu.tcu.cs.monnigmeteoritecollection.loan.Loan;
 import edu.tcu.cs.monnigmeteoritecollection.loan.dto.LoanDto;
+import edu.tcu.cs.monnigmeteoritecollection.meteorite.converter.MeteoriteDtoToMeteoriteConverter;
 
 @Component
 public class LoanDtoToLoanConverter implements Converter<LoanDto, Loan> {
+
+    private final MeteoriteDtoToMeteoriteConverter meteoriteDtoToMeteoriteConverter;
+
+    public LoanDtoToLoanConverter(MeteoriteDtoToMeteoriteConverter meteoriteDtoToMeteoriteConverter) {
+        this.meteoriteDtoToMeteoriteConverter = meteoriteDtoToMeteoriteConverter;
+    }
 
     @SuppressWarnings("null")
     @Override
@@ -25,7 +34,7 @@ public class LoanDtoToLoanConverter implements Converter<LoanDto, Loan> {
 
         loan.setArchived(source.isArchived());
 
-        // don't touch 'List<Meteorite> meteorites' attribute. Meteorites are added to Loans separately.
+        // set meteorites
         loan.setNotes(source.notes());
         loan.setExtraFiles(source.extraFiles());
 

@@ -97,6 +97,7 @@ public class LoanController {
 
     // UC-13, UC-15
     // update loan -- this method also handles ARCHIVE LOAN (by sending an empty loanDto with only isArchived changed)
+    // also use this method to add Meteorites to a given Loan
     @PutMapping("/{loanId}")
     public Result updateLoan(@PathVariable String loanId, @Validated @RequestBody LoanDto loanDto) {
         Loan update = this.loanDtoToLoanConverter.convert(loanDto);

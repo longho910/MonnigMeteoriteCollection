@@ -1,7 +1,12 @@
 package edu.tcu.cs.monnigmeteoritecollection.system;
 
+import edu.tcu.cs.monnigmeteoritecollection.loan.Loan;
+import edu.tcu.cs.monnigmeteoritecollection.loan.LoanRepository;
 import edu.tcu.cs.monnigmeteoritecollection.meteorite.Meteorite;
 import edu.tcu.cs.monnigmeteoritecollection.meteorite.MeteoriteRepository;
+import edu.tcu.cs.monnigmeteoritecollection.samplehistory.SampleHistory;
+import edu.tcu.cs.monnigmeteoritecollection.samplehistory.SampleHistoryRepository;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -11,14 +16,23 @@ import java.math.BigDecimal;
 public class DBDataInitializer implements CommandLineRunner {
     
     private final MeteoriteRepository meteoriteRepository;
+    private final LoanRepository loanRepository;
+    private final SampleHistoryRepository sampleHistoryRepository;
 
-    public DBDataInitializer(MeteoriteRepository meteoriteRepository) {
+    public DBDataInitializer(MeteoriteRepository meteoriteRepository, SampleHistoryRepository sampleHistoryRepository, LoanRepository loanRepository) {
         this.meteoriteRepository = meteoriteRepository;
+        this.sampleHistoryRepository = sampleHistoryRepository;
+        this.loanRepository = loanRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
+        initializeMeteorites();
+        initializeLoans();
+        initializeHistories();
+    }
 
+    public void initializeMeteorites() {
         // Name	Monnig Number	Country	Class	Group	Year Found	Sample Weight (g)
         // Abbott	M398.1	USA	Ordinary Chondrite	H	1951	325.1
         Meteorite meteorite1 = new Meteorite();
@@ -87,4 +101,25 @@ public class DBDataInitializer implements CommandLineRunner {
         meteoriteRepository.save(meteorite4);
         meteoriteRepository.save(meteorite5);
     }
+
+    public void initializeLoans() {
+        Loan loan1 = new Loan();
+        loan1.setName("Loan1");
+        loan1.setInstitution("TCU");
+        loan1.setEmail("null@gmail.com");
+        loan1.setPhone("999-999-9999");
+        loan1.setAddress("1111 North Main Street, Fort Worth, Texas");
+        loan1.setLoanStartDate("04-24-2024");
+        loan1.setLoanDueDate("04-24-2025");
+
+        loan1.setArchived(false);
+        
+        loan1.setNotes("some notes");
+        loan1.setExtraFiles("extra files");
+    }
+
+    public void initializeHistories() {
+        SampleHistory history1 = new SampleHistory();
+    }
+
 }

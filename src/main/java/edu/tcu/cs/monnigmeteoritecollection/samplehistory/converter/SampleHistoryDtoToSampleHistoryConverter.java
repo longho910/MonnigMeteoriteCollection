@@ -1,5 +1,8 @@
 package edu.tcu.cs.monnigmeteoritecollection.samplehistory.converter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +30,16 @@ public class SampleHistoryDtoToSampleHistoryConverter implements Converter<Sampl
         sampleHistory.setMeteorite(meteoriteDtoToMeteoriteConverter.convert(source.meteorite()));
 
         return sampleHistory;
+    }
+
+    public List<SampleHistory> convertList(List<SampleHistoryDto> source) {
+        List<SampleHistory> sampleHistoryList = new ArrayList<>();
+
+        for (SampleHistoryDto elem : source) {
+            sampleHistoryList.add(convert(elem));
+        }
+
+        return sampleHistoryList;
     }
 
 }
