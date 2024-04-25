@@ -29,8 +29,8 @@ public class MeteoriteService {
     public List<Meteorite> findAllOnLoan() {
         List<Meteorite> meteoriteList = this.meteoriteRepository.findAll();
         for (Meteorite elem : meteoriteList) {
-            // remove all meteorites with loanId == null
-            if (elem.getLoanId() == null) {
+            // remove all meteorites with Loan == null or empty
+            if (elem.getLoan() == null) {
                 meteoriteList.remove(elem);
             }
         }
@@ -47,11 +47,14 @@ public class MeteoriteService {
                     oldMeteorite.setName(update.getName());
                     oldMeteorite.setMonnigNumber(update.getMonnigNumber());
                     oldMeteorite.setCountry(update.getCountry());
-                    oldMeteorite.set_group(update.get_group());
                     oldMeteorite.set_class(update.get_class());
-                    oldMeteorite.setHowFound(update.getHowFound());
-                    oldMeteorite.setWeight(update.getWeight());
+                    oldMeteorite.set_group(update.get_group());
                     oldMeteorite.setYearFound(update.getYearFound());
+                    oldMeteorite.setWeight(update.getWeight());
+
+                    oldMeteorite.setHowFound(update.getHowFound());
+                    oldMeteorite.setSampleHistory(update.getSampleHistory());
+                    oldMeteorite.setLoan(update.getLoan());
 
                     return this.meteoriteRepository.save(oldMeteorite);
                 })
@@ -62,6 +65,18 @@ public class MeteoriteService {
         this.meteoriteRepository.findById(Long.valueOf(meteoriteId))
                 .orElseThrow(() -> new ObjectNotFoundException("meteorite", meteoriteId));
         this.meteoriteRepository.deleteById(Long.valueOf(meteoriteId));
+    }
+
+    // use case 10, actually updates the meteorite in the repository, omitting the SampleHistory field
+    public void deleteSampleHistory(String meteoriteId) {
+        // pull the meteorite from DB
+        Meteorite update = this.meteoriteRepository.findById(Long.valueOf(meteoriteId))
+            .orElseThrow(() -> new ObjectNotFoundException("meteorite", meteoriteId));
+        // remove the SampleHistory from our copy
+        update.setSampleHistory(null);
+
+        // update meteorite in DB
+        update(meteoriteId, update);
     }
 
     public Meteorite saveSub(String meteoriteId, Meteorite newMeteorite) {

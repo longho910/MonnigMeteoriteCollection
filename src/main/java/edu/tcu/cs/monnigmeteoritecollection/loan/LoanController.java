@@ -32,7 +32,7 @@ public class LoanController {
         this.loanToLoanDtoConverter = loanToLoanDtoConverter;
     }
 
-    // find one loan by ID and return
+    // UC-11. UC-12
     @GetMapping("/{loanId}")
     public Result findLoanById(@PathVariable Integer loanId) {
 
@@ -41,7 +41,7 @@ public class LoanController {
         return new Result(true, StatusCode.SUCCESS, "Find One Loan Success", loanDto);
     }
 
-    // return all loans
+    // UC-11, UC-12
     @GetMapping("/api/v1/loan")
     public Result findAllLoans() {
         List<Loan> foundLoans = this.loanService.findAll();
@@ -54,7 +54,8 @@ public class LoanController {
         return new Result(true, StatusCode.SUCCESS, "Find All Loans Success", loanDtoList);
     }
 
-    // return non-archived loans
+    // UC-11, UC-12
+    // returns non-archived loans
     @GetMapping("/api/v1/loan/nonarchived")
     public Result findAllNonArchived() {
         List<Loan> foundLoans = this.loanService.findAllNonArchived();
@@ -67,6 +68,7 @@ public class LoanController {
         return new Result(true, StatusCode.SUCCESS, "Find All Non-Archived Loans Success", loanDtoList);
     }
 
+    // UC-11, UC-12
     // return archived loans
     @GetMapping("/api/v1/loan/archived")
     public Result findAllArchived() {
@@ -80,6 +82,7 @@ public class LoanController {
         return new Result(true, StatusCode.SUCCESS, "Find All Non-Archived Loans Success", loanDtoList);
     }
 
+    // UC-14
     // create loan, returns a copy of the saved loan in the SUCCESS Result
     @PostMapping
     public Result addLoan(@Valid @RequestBody LoanDto loanDto) {
@@ -92,6 +95,7 @@ public class LoanController {
         return new Result(true, StatusCode.SUCCESS, "Add Success", savedLoanDto);
     }
 
+    // UC-13, UC-15
     // update loan -- this method also handles ARCHIVE LOAN (by sending an empty loanDto with only isArchived changed)
     @PutMapping("/{loanId}")
     public Result updateLoan(@PathVariable Integer loanId, @Validated @RequestBody LoanDto loanDto) {

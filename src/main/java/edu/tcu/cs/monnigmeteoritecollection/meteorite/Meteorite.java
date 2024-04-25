@@ -1,6 +1,7 @@
 package edu.tcu.cs.monnigmeteoritecollection.meteorite;
 
 import edu.tcu.cs.monnigmeteoritecollection.loan.Loan;
+import edu.tcu.cs.monnigmeteoritecollection.samplehistory.SampleHistory;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -11,12 +12,12 @@ import java.math.BigDecimal;
 
 @Entity
 public class Meteorite implements Serializable {
+
     @Id
-    private Long id;
-    private Integer loanId;
+    private Long id;            // internal ID used for queries
 
+    // attributes given by sample data
     private String name;
-
     @Column(unique = true)
     private String monnigNumber;
     private String country;
@@ -25,12 +26,43 @@ public class Meteorite implements Serializable {
     private Integer yearFound;
     private BigDecimal weight;
 
+    // further attributes to assist with use cases
     private String howFound;
+    private SampleHistory sampleHistory;
+    @ManyToOne
+    private Loan loan;
 
+
+    // constructor ----------------------------------------------------------------------------------------------------
+    public Meteorite() {
+    }
+
+    // internal attributes getters and setters ------------------------------------------------------------------------
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
     public String getHowFound() {
         return howFound;
     }
 
+    public void setHowFound(String howFound) {
+        this.howFound = howFound;
+    }
+
+    public SampleHistory getSampleHistory() {
+        return sampleHistory;
+    }
+
+    public void setSampleHistory(SampleHistory sampleHistory) {
+        this.sampleHistory = sampleHistory;
+    }
+
+    // returns null if the Loan field is empty
     public Loan getLoan() {
         return loan;
     }
@@ -39,37 +71,7 @@ public class Meteorite implements Serializable {
         this.loan = loan;
     }
 
-    @ManyToOne
-    private Loan loan;
-
-    public void setHowFound(String howFound) {
-        this.howFound = howFound;
-    }
-
-    public Meteorite() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Integer getLoanId() {
-        return loanId;
-    }
-
-    public void setLoanId(Integer loanId) {
-        this.loanId = loanId;
-    }
-
-    // rather than using setLoanId(null), I thought this would be clearer in other classes
-    public void wipeLoanId() {
-        this.loanId = null;
-    }
-
+    // given dataset getters and setters ------------------------------------------------------------------------------
     public String getName() {
         return name;
     }

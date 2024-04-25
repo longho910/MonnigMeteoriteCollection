@@ -1,7 +1,5 @@
 package edu.tcu.cs.monnigmeteoritecollection.loan;
 
-
-import edu.tcu.cs.monnigmeteoritecollection.meteorite.Meteorite;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -20,8 +18,8 @@ public class Loan implements Serializable {
     private String email;
     private String phone;
     private String address;
-    private String loanStartDate;
-    private String loanDueDate;
+    private String loanStartDate;       // require format MM-DD-YYYY
+    private String loanDueDate;         // require format MM-DD-YYYY
 
     // boolean to track archival
     private Boolean isArchived;
