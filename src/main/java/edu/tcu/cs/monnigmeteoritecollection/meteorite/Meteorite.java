@@ -7,9 +7,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.PrimaryKeyJoinColumn;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -32,8 +30,7 @@ public class Meteorite implements Serializable {
 
     // further attributes to assist with use cases
     private String howFound;
-
-    @OneToOne(mappedBy = "meteorite", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "meteorite")
     private SampleHistory sampleHistory;
 
     @ManyToOne

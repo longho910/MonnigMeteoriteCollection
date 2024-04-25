@@ -23,6 +23,12 @@ public class LoanDtoToLoanConverter implements Converter<LoanDto, Loan> {
         loan.setLoanStartDate(source.loanStartDate());
         loan.setLoanDueDate(source.loanDueDate());
 
+        loan.setArchived(source.isArchived());
+
+        // don't touch 'List<Meteorite> meteorites' attribute. Meteorites are added to Loans separately.
+        loan.setNotes(source.notes());
+        loan.setExtraFiles(source.extraFiles());
+
         return loan;
     }
 

@@ -6,6 +6,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.tcu.cs.monnigmeteoritecollection.meteorite.Meteorite;
+
 @Entity
 public class Loan implements Serializable {
 
@@ -25,7 +27,7 @@ public class Loan implements Serializable {
     private Boolean isArchived;
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy =  "loan")
-    private List<Loan> loans = new ArrayList<>();
+    private List<Meteorite> meteorites = new ArrayList<>();
 
     private String notes;
     private String extraFiles;
@@ -97,12 +99,12 @@ public class Loan implements Serializable {
         this.loanDueDate = loanDueDate;
     }
 
-    public List<Loan> getLoans() {
-        return loans;
+    public List<Meteorite> getMeteorites() {
+        return meteorites;
     }
 
-    public void setLoans(List<Loan> loans) {
-        this.loans = loans;
+    public void setMeteorites(List<Meteorite> meteorites) {
+        this.meteorites = meteorites;
     }
 
     public String getNotes() {
@@ -121,8 +123,8 @@ public class Loan implements Serializable {
         this.extraFiles = extraFiles;
     }
 
-    public Integer getNumberOfLoans() {
-        return this.loans.size();
+    public Integer getNumberOfMeteorites() {
+        return this.meteorites.size();
     }
 
     public Boolean isArchived() {

@@ -42,7 +42,7 @@ public class LoanController {
     }
 
     // UC-11, UC-12
-    @GetMapping("/api/v1/loan")
+    @GetMapping
     public Result findAllLoans() {
         List<Loan> foundLoans = this.loanService.findAll();
 
@@ -56,7 +56,7 @@ public class LoanController {
 
     // UC-11, UC-12
     // returns non-archived loans
-    @GetMapping("/api/v1/loan/nonarchived")
+    @GetMapping("/nonarchived")
     public Result findAllNonArchived() {
         List<Loan> foundLoans = this.loanService.findAllNonArchived();
 
@@ -70,7 +70,7 @@ public class LoanController {
 
     // UC-11, UC-12
     // return archived loans
-    @GetMapping("/api/v1/loan/archived")
+    @GetMapping("/archived")
     public Result findAllArchived() {
         List<Loan> foundLoans = this.loanService.findAllArchived();
 

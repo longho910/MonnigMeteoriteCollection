@@ -10,6 +10,9 @@ public record LoanDto(
     String address,
     String loanStartDate,
     String loanDueDate,
+
+    Boolean isArchived,
+
     Integer numberOfMeteorites,
     String notes,
     String extraFiles
