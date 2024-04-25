@@ -54,7 +54,33 @@ public class LoanController {
         return new Result(true, StatusCode.SUCCESS, "Find All Loans Success", loanDtoList);
     }
 
-    // update loan
+    // return non-archived loans
+    @GetMapping("/api/v1/loan/nonarchived")
+    public Result findAllNonArchived() {
+        List<Loan> foundLoans = this.loanService.findAllNonArchived();
+
+        List<LoanDto> loanDtoList = new ArrayList<>();
+        for (Loan elem : foundLoans) {
+            loanDtoList.add(this.loanToLoanDtoConverter.convert(elem));
+        }
+
+        return new Result(true, StatusCode.SUCCESS, "Find All Non-Archived Loans Success", loanDtoList);
+    }
+
+    // return archived loans
+    @GetMapping("/api/v1/loan/archived")
+    public Result findAllArchived() {
+        List<Loan> foundLoans = this.loanService.findAllArchived();
+
+        List<LoanDto> loanDtoList = new ArrayList<>();
+        for (Loan elem : foundLoans) {
+            loanDtoList.add(this.loanToLoanDtoConverter.convert(elem));
+        }
+
+        return new Result(true, StatusCode.SUCCESS, "Find All Non-Archived Loans Success", loanDtoList);
+    }
+
+    // update loan -- this method also handles ARCHIVE LOAN
     @PutMapping("/{loanId}")
     public Result updateLoan(@PathVariable Integer loanId, @Validated @RequestBody LoanDto loanDto) {
         Loan update = this.loanDtoToLoanConverter.convert(loanDto);

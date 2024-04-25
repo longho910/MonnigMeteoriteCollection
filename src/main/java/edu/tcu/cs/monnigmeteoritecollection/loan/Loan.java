@@ -23,8 +23,11 @@ public class Loan implements Serializable {
     private String loanStartDate;
     private String loanDueDate;
 
+    // boolean to track archival
+    private Boolean isArchived;
+
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy =  "loan")
-    private List<Meteorite> meteorites = new ArrayList<>();
+    private List<Loan> loans = new ArrayList<>();
 
     private String notes;
     private String extraFiles;
@@ -96,12 +99,12 @@ public class Loan implements Serializable {
         this.loanDueDate = loanDueDate;
     }
 
-    public List<Meteorite> getMeteorites() {
-        return meteorites;
+    public List<Loan> getLoans() {
+        return loans;
     }
 
-    public void setMeteorites(List<Meteorite> meteorites) {
-        this.meteorites = meteorites;
+    public void setLoans(List<Loan> loans) {
+        this.loans = loans;
     }
 
     public String getNotes() {
@@ -120,7 +123,16 @@ public class Loan implements Serializable {
         this.extraFiles = extraFiles;
     }
 
-    public Integer getNumberOfMeteorites() {
-        return this.meteorites.size();
+    public Integer getNumberOfLoans() {
+        return this.loans.size();
+    }
+
+    public Boolean isArchived() {
+        return this.isArchived;
+    }
+
+    public Boolean setArchived(Boolean newValue) {
+        this.isArchived = newValue;
+        return this.isArchived;
     }
 }
