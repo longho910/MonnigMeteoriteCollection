@@ -25,6 +25,18 @@ public class MeteoriteService {
         return this.meteoriteRepository.findAll();
     }
 
+    // use case 16
+    public List<Meteorite> findAllOnLoan() {
+        List<Meteorite> meteoriteList = this.meteoriteRepository.findAll();
+        for (Meteorite elem : meteoriteList) {
+            // remove all meteorites with loanId == null
+            if (elem.getLoanId() == null) {
+                meteoriteList.remove(elem);
+            }
+        }
+        return meteoriteList;
+    }
+
     public Meteorite save(Meteorite newMeteorite) {
         return this.meteoriteRepository.save(newMeteorite);
     }
