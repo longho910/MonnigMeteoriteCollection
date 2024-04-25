@@ -4,6 +4,7 @@ import edu.tcu.cs.monnigmeteoritecollection.system.exception.ObjectNotFoundExcep
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,10 +29,11 @@ public class MeteoriteService {
     // use case 16
     public List<Meteorite> findAllOnLoan() {
         List<Meteorite> meteoriteList = this.meteoriteRepository.findAll();
+        List<Meteorite> truncatedList = new ArrayList<>();
         for (Meteorite elem : meteoriteList) {
-            // remove all meteorites with Loan == null or empty
+            // remove all meteorites with loanId == null
             if (elem.getLoan() == null) {
-                meteoriteList.remove(elem);
+                truncatedList.add(elem);
             }
         }
         return meteoriteList;
@@ -67,16 +69,12 @@ public class MeteoriteService {
         this.meteoriteRepository.deleteById(Long.valueOf(meteoriteId));
     }
 
-    // use case 10, actually updates the meteorite in the repository, omitting the SampleHistory field
     public void deleteSampleHistory(String meteoriteId) {
-        // pull the meteorite from DB
-        Meteorite update = this.meteoriteRepository.findById(Long.valueOf(meteoriteId))
-            .orElseThrow(() -> new ObjectNotFoundException("meteorite", meteoriteId));
-        // remove the SampleHistory from our copy
-        update.setSampleHistory(null);
+        Meteorite oldMeteorite = this.meteoriteRepository.findById(Long.valueOf(meteoriteId))
+                .orElseThrow(() -> new ObjectNotFoundException("meteorite", meteoriteId));
+        oldMeteorite.setSampleHistory(null);
+        update(meteoriteId, oldMeteorite);
 
-        // update meteorite in DB
-        update(meteoriteId, update);
     }
 
     public Meteorite saveSub(String meteoriteId, Meteorite newMeteorite) {
