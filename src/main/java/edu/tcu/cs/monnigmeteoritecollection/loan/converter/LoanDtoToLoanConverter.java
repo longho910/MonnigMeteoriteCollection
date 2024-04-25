@@ -23,6 +23,11 @@ public class LoanDtoToLoanConverter implements Converter<LoanDto, Loan> {
         loan.setLoanStartDate(source.loanStartDate());
         loan.setLoanDueDate(source.loanDueDate());
 
+        loan.setArchived(source.isArchived());
+
+        loan.setExtraFiles(source.extraFiles());
+        loan.setNotes(source.notes());
+
         return loan;
     }
 
