@@ -69,7 +69,6 @@ public class MeteoriteService {
         this.meteoriteRepository.deleteById(Long.valueOf(meteoriteId));
     }
 
-
     public Meteorite saveSub(String meteoriteId, Meteorite newMeteorite) {
         Optional<Meteorite> parentMeteorite = meteoriteRepository.findById(Long.valueOf(meteoriteId));
 

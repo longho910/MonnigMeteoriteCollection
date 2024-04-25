@@ -50,9 +50,8 @@ public class MeteoriteController {
     @GetMapping("/onloan")
     public Result findAllMeteoritesOnLoan() {
         List<Meteorite> foundMeteorites = this.meteoriteService.findAllOnLoan();
-
-        // convert to DTO list
         List<MeteoriteDto> meteoriteDtoList = new ArrayList<>();
+        
         for (Meteorite meteorite : foundMeteorites) {
             meteoriteDtoList.add(this.meteoriteToMeteoriteDtoConverter.convert(meteorite));
         }
