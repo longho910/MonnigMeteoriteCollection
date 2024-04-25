@@ -51,6 +51,7 @@ public class MeteoriteController {
     public Result findAllMeteoritesOnLoan() {
         List<Meteorite> foundMeteorites = this.meteoriteService.findAllOnLoan();
 
+        // convert to DTO list
         List<MeteoriteDto> meteoriteDtoList = new ArrayList<>();
         for (Meteorite meteorite : foundMeteorites) {
             meteoriteDtoList.add(this.meteoriteToMeteoriteDtoConverter.convert(meteorite));
@@ -87,13 +88,6 @@ public class MeteoriteController {
     public Result deleteMeteorite(@PathVariable String meteoriteId) {
         this.meteoriteService.delete(meteoriteId);
         return new Result(true, StatusCode.SUCCESS, "Delete Success");
-    }
-
-    // UC-10, resets SampleHistory attribute to NULL
-    @DeleteMapping("/{meteoriteId}/samplehistory")
-    public Result deleteSampleHistory(@PathVariable String meteoriteId) {
-        this.meteoriteService.deleteSampleHistory(meteoriteId);
-        return new Result(true, StatusCode.SUCCESS, "Delete Sample History Success");
     }
 
     @PostMapping("/{meteoriteId}/sub")

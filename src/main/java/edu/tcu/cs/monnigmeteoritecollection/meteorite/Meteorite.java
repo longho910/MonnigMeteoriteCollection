@@ -2,10 +2,14 @@ package edu.tcu.cs.monnigmeteoritecollection.meteorite;
 
 import edu.tcu.cs.monnigmeteoritecollection.loan.Loan;
 import edu.tcu.cs.monnigmeteoritecollection.samplehistory.SampleHistory;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -28,7 +32,10 @@ public class Meteorite implements Serializable {
 
     // further attributes to assist with use cases
     private String howFound;
+
+    @OneToOne(mappedBy = "meteorite", cascade = CascadeType.ALL)
     private SampleHistory sampleHistory;
+
     @ManyToOne
     private Loan loan;
 
