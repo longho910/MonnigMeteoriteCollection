@@ -7,8 +7,12 @@ import jakarta.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 
 public record MeteoriteDto(
+        Long id,
+
         @NotEmpty(message = "name is required.")
         String name,
+
+        Integer loanId,         // added loanId
 
         @NotEmpty(message = "monnigNumber is required.")
         String monnigNumber,

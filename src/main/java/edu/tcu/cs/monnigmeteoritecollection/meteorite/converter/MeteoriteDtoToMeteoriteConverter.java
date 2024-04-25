@@ -12,6 +12,7 @@ public class MeteoriteDtoToMeteoriteConverter implements Converter<MeteoriteDto,
         Meteorite meteorite = new Meteorite();
         meteorite.setId(source.id());
         meteorite.setName(source.name());
+        meteorite.setLoanId(source.loanId());       // added loanId
         meteorite.setMonnigNumber(source.monnigNumber());
         meteorite.setCountry(source.country());
         meteorite.set_class(source._class());
