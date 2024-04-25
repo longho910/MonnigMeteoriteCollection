@@ -31,12 +31,12 @@ public class MeteoriteService {
         List<Meteorite> meteoriteList = this.meteoriteRepository.findAll();
         List<Meteorite> truncatedList = new ArrayList<>();
         for (Meteorite elem : meteoriteList) {
-            // remove all meteorites with loanId == null
-            if (elem.getLoan() == null) {
+            // remove all meteorites with Loan == null or empty
+            if (elem.getLoan() != null) {
                 truncatedList.add(elem);
             }
         }
-        return meteoriteList;
+        return truncatedList;
     }
 
     public Meteorite save(Meteorite newMeteorite) {
@@ -67,14 +67,6 @@ public class MeteoriteService {
         this.meteoriteRepository.findById(Long.valueOf(meteoriteId))
                 .orElseThrow(() -> new ObjectNotFoundException("meteorite", meteoriteId));
         this.meteoriteRepository.deleteById(Long.valueOf(meteoriteId));
-    }
-
-    public void deleteSampleHistory(String meteoriteId) {
-        Meteorite oldMeteorite = this.meteoriteRepository.findById(Long.valueOf(meteoriteId))
-                .orElseThrow(() -> new ObjectNotFoundException("meteorite", meteoriteId));
-        oldMeteorite.setSampleHistory(null);
-        update(meteoriteId, oldMeteorite);
-
     }
 
     public Meteorite saveSub(String meteoriteId, Meteorite newMeteorite) {

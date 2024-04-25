@@ -90,13 +90,6 @@ public class MeteoriteController {
         return new Result(true, StatusCode.SUCCESS, "Delete Success");
     }
 
-    // UC-10, resets SampleHistory attribute to NULL
-    @DeleteMapping("/{meteoriteId}/samplehistory")
-    public Result deleteSampleHistory(@PathVariable String meteoriteId) {
-        this.meteoriteService.deleteSampleHistory(meteoriteId);
-        return new Result(true, StatusCode.SUCCESS, "Delete Sample History Success");
-    }
-
     @PostMapping("/{meteoriteId}/sub")
     public Result createSubsample(@PathVariable String meteoriteId, @Valid @RequestBody MeteoriteDto meteoriteDto) {
         Meteorite newMeteorite = this.meteoriteDtoToMeteoriteConverter.convert(meteoriteDto);

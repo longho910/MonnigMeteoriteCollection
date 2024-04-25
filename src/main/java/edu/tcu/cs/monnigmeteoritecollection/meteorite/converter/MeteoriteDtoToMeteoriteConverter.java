@@ -12,11 +12,9 @@ import org.springframework.stereotype.Component;
 public class MeteoriteDtoToMeteoriteConverter implements Converter<MeteoriteDto, Meteorite> {
 
     private final LoanDtoToLoanConverter loanDtoToLoanConverter;
-    private final SampleHistoryDtoToSampleHistoryConverter sampleHistoryDtoToSampleHistoryConverter;
 
     public MeteoriteDtoToMeteoriteConverter(LoanDtoToLoanConverter loanDtoToLoanConverter, SampleHistoryDtoToSampleHistoryConverter sampleHistoryDtoToSampleHistoryConverter) {
         this.loanDtoToLoanConverter = loanDtoToLoanConverter;
-        this.sampleHistoryDtoToSampleHistoryConverter = sampleHistoryDtoToSampleHistoryConverter;
     }
 
     @SuppressWarnings("null")
@@ -33,7 +31,7 @@ public class MeteoriteDtoToMeteoriteConverter implements Converter<MeteoriteDto,
         meteorite.setWeight(source.weight());
 
         meteorite.setHowFound(source.howFound());
-        meteorite.setSampleHistory(sampleHistoryDtoToSampleHistoryConverter.convert(source.sampleHistory()));
+        // meteorite.setSampleHistory(sampleHistoryDtoToSampleHistoryConverter.convert(source.sampleHistory()));
         meteorite.setLoan(loanDtoToLoanConverter.convert(source.loan()));
 
         return meteorite;
