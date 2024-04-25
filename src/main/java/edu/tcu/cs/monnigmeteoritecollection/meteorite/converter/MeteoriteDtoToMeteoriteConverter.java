@@ -3,6 +3,7 @@ package edu.tcu.cs.monnigmeteoritecollection.meteorite.converter;
 import edu.tcu.cs.monnigmeteoritecollection.loan.converter.LoanDtoToLoanConverter;
 import edu.tcu.cs.monnigmeteoritecollection.meteorite.Meteorite;
 import edu.tcu.cs.monnigmeteoritecollection.meteorite.dto.MeteoriteDto;
+import edu.tcu.cs.monnigmeteoritecollection.samplehistory.converter.SampleHistoryDtoToSampleHistoryConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +15,11 @@ import org.springframework.stereotype.Component;
 public class MeteoriteDtoToMeteoriteConverter implements Converter<MeteoriteDto, Meteorite> {
 
     private final LoanDtoToLoanConverter loanDtoToLoanConverter;
+    private final SampleHistoryDtoToSampleHistoryConverter sampleHistoryDtoToSampleHistoryConverter;
 
-    public MeteoriteDtoToMeteoriteConverter(LoanDtoToLoanConverter loanDtoToLoanConverter) {
+    public MeteoriteDtoToMeteoriteConverter(LoanDtoToLoanConverter loanDtoToLoanConverter, SampleHistoryDtoToSampleHistoryConverter sampleHistoryDtoToSampleHistoryConverter) {
         this.loanDtoToLoanConverter = loanDtoToLoanConverter;
+        this.sampleHistoryDtoToSampleHistoryConverter = sampleHistoryDtoToSampleHistoryConverter;
     }
 
     @SuppressWarnings("null")
@@ -33,7 +36,9 @@ public class MeteoriteDtoToMeteoriteConverter implements Converter<MeteoriteDto,
         meteorite.setWeight(source.weight());
 
         meteorite.setHowFound(source.howFound());
-        // meteorite.setSampleHistory(sampleHistoryDtoToSampleHistoryConverter.convert(source.sampleHistory()));
+        // convert sampleHistoryDtoList -> sampleHistoryList, and assign to meteorite
+        meteorite.setSampleHistory(sampleHistoryDtoToSampleHistoryConverter.convertList(source.sampleHistory()));
+        // convert loanDto -> loan and assign
         meteorite.setLoan(loanDtoToLoanConverter.convert(source.loan()));
 
         return meteorite;

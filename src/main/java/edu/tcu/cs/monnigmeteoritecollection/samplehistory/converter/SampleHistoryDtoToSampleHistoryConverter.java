@@ -27,6 +27,7 @@ public class SampleHistoryDtoToSampleHistoryConverter implements Converter<Sampl
         sampleHistory.setDate(source.date());
         sampleHistory.setCategory(source.category());
         sampleHistory.setNotes(source.notes());
+        
         sampleHistory.setMeteorite(meteoriteDtoToMeteoriteConverter.convert(source.meteorite()));
 
         return sampleHistory;
