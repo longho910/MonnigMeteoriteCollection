@@ -1,20 +1,20 @@
 package edu.tcu.cs.monnigmeteoritecollection.samplehistory;
 
 import edu.tcu.cs.monnigmeteoritecollection.meteorite.Meteorite;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 
+@Entity
 public class SampleHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
-    @MapsId
+    @ManyToOne
     private Meteorite meteorite;
 
     private String date;        // should be in DD-MM-YYYY
@@ -22,10 +22,7 @@ public class SampleHistory {
     private String notes;
 
 
-    public SampleHistory(String date, String category, String notes) {
-        this.date = date;
-        this.category = category;
-        this.notes = notes;
+    public SampleHistory() {
     }
 
     // getters and setters -------------------------------------------------------------------------------------------------
@@ -59,6 +56,10 @@ public class SampleHistory {
 
     public Long getMeteoriteId() {
         return meteorite.getId();
+    }
+
+    public Meteorite getMeteorite() {
+        return meteorite;
     }
 
     public void setMeteorite(Meteorite meteorite) {

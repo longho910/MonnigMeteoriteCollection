@@ -7,10 +7,12 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Meteorite implements Serializable {
@@ -30,8 +32,9 @@ public class Meteorite implements Serializable {
 
     // further attributes to assist with use cases
     private String howFound;
-    @OneToOne(mappedBy = "meteorite")
-    private SampleHistory sampleHistory;
+    
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "meteorite")
+    private List<SampleHistory> sampleHistory = new ArrayList<>();
 
     @ManyToOne
     private Loan loan;
@@ -58,11 +61,11 @@ public class Meteorite implements Serializable {
         this.howFound = howFound;
     }
 
-    public SampleHistory getSampleHistory() {
+    public List<SampleHistory> getSampleHistory() {
         return sampleHistory;
     }
 
-    public void setSampleHistory(SampleHistory sampleHistory) {
+    public void setSampleHistory(List<SampleHistory> sampleHistory) {
         this.sampleHistory = sampleHistory;
     }
 
