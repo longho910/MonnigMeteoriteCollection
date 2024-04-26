@@ -1,22 +1,20 @@
 package edu.tcu.cs.monnigmeteoritecollection.samplehistory.converter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import edu.tcu.cs.monnigmeteoritecollection.meteorite.converter.MeteoriteDtoToMeteoriteConverter;
+import edu.tcu.cs.monnigmeteoritecollection.meteorite.MeteoriteRepository;
 import edu.tcu.cs.monnigmeteoritecollection.samplehistory.SampleHistory;
 import edu.tcu.cs.monnigmeteoritecollection.samplehistory.dto.SampleHistoryDto;
+import edu.tcu.cs.monnigmeteoritecollection.system.exception.ObjectNotFoundException;
 
 @Component
 public class SampleHistoryDtoToSampleHistoryConverter implements Converter<SampleHistoryDto, SampleHistory> {
 
-    private final MeteoriteDtoToMeteoriteConverter meteoriteDtoToMeteoriteConverter;
+    private final MeteoriteRepository meteoriteRepository;
 
-    public SampleHistoryDtoToSampleHistoryConverter(MeteoriteDtoToMeteoriteConverter meteoriteDtoToMeteoriteConverter) {
-        this.meteoriteDtoToMeteoriteConverter = meteoriteDtoToMeteoriteConverter;
+    public SampleHistoryDtoToSampleHistoryConverter(MeteoriteRepository meteoriteRepository) {
+        this.meteoriteRepository = meteoriteRepository;
     }
 
     @SuppressWarnings("null")
@@ -28,19 +26,9 @@ public class SampleHistoryDtoToSampleHistoryConverter implements Converter<Sampl
         sampleHistory.setCategory(source.category());
         sampleHistory.setNotes(source.notes());
         
-        sampleHistory.setMeteorite(meteoriteDtoToMeteoriteConverter.convert(source.meteorite()));
+        sampleHistory.setMeteorite(this.meteoriteRepository.findById(source.meteorite())
+            .orElseThrow(() -> new ObjectNotFoundException("Meteorite not found", String.valueOf(source.meteorite()))));
 
         return sampleHistory;
     }
-
-    public List<SampleHistory> convertList(List<SampleHistoryDto> source) {
-        List<SampleHistory> sampleHistoryList = new ArrayList<>();
-
-        for (SampleHistoryDto elem : source) {
-            sampleHistoryList.add(convert(elem));
-        }
-
-        return sampleHistoryList;
-    }
-
 }
