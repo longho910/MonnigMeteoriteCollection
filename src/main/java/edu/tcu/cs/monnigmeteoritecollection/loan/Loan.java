@@ -103,8 +103,28 @@ public class Loan implements Serializable {
         return meteorites;
     }
 
-    public void setMeteorites(List<Meteorite> meteorites) {
-        this.meteorites = meteorites;
+    public void addMeteorite(Meteorite meteorite) {
+        meteorites.add(meteorite);
+        meteorite.setLoan(this);
+    }
+
+    public void removeMeteorite(Meteorite meteorite) {
+        meteorites.remove(meteorite);
+        meteorite.setLoan(null);
+    }
+
+    public void setMeteorites(List<Meteorite> updateList) {
+        // first remove all current meteorites from the Loan
+        clearMeteorites();
+
+        // now add back all meteorites found in the List passed originally
+        for (Meteorite elem : updateList) {
+            addMeteorite(elem);
+        }
+    }
+    private void clearMeteorites() {
+        List<Meteorite> emptyList = new ArrayList<>();
+        this.meteorites = emptyList;
     }
 
     public String getNotes() {

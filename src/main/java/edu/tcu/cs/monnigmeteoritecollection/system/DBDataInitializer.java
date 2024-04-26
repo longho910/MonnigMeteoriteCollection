@@ -1,12 +1,11 @@
 package edu.tcu.cs.monnigmeteoritecollection.system;
 
 import edu.tcu.cs.monnigmeteoritecollection.loan.Loan;
-import edu.tcu.cs.monnigmeteoritecollection.loan.LoanRepository;
+import edu.tcu.cs.monnigmeteoritecollection.loan.LoanService;
 import edu.tcu.cs.monnigmeteoritecollection.meteorite.Meteorite;
-import edu.tcu.cs.monnigmeteoritecollection.meteorite.MeteoriteRepository;
+import edu.tcu.cs.monnigmeteoritecollection.meteorite.MeteoriteService;
 import edu.tcu.cs.monnigmeteoritecollection.samplehistory.SampleHistory;
-import edu.tcu.cs.monnigmeteoritecollection.samplehistory.SampleHistoryRepository;
-import edu.tcu.cs.monnigmeteoritecollection.system.exception.ObjectNotFoundException;
+import edu.tcu.cs.monnigmeteoritecollection.samplehistory.SampleHistoryService;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -18,21 +17,24 @@ import java.util.List;
 @Component
 public class DBDataInitializer implements CommandLineRunner {
     
-    private final MeteoriteRepository meteoriteRepository;
-    private final LoanRepository loanRepository;
-    private final SampleHistoryRepository sampleHistoryRepository;
+    private final MeteoriteService meteoriteService;
+    private final LoanService loanService;
+    private final SampleHistoryService sampleHistoryService;
 
-    public DBDataInitializer(MeteoriteRepository meteoriteRepository, SampleHistoryRepository sampleHistoryRepository, LoanRepository loanRepository) {
-        this.meteoriteRepository = meteoriteRepository;
-        this.sampleHistoryRepository = sampleHistoryRepository;
-        this.loanRepository = loanRepository;
+    public DBDataInitializer(MeteoriteService meteoriteService, SampleHistoryService sampleHistoryService, LoanService loanService) {
+        this.meteoriteService = meteoriteService;
+        this.sampleHistoryService = sampleHistoryService;
+        this.loanService = loanService;
     }
 
     @Override
     public void run(String... args) throws Exception {
         initializeMeteorites();
+        System.out.println("METEORITES INIT");
         initializeLoans();
+        System.out.println("LOANS INIT");
         initializeHistories();
+        System.out.println("HISTORIES INIT");
     }
 
     public void initializeMeteorites() {
@@ -98,11 +100,11 @@ public class DBDataInitializer implements CommandLineRunner {
         meteorite5.setWeight(BigDecimal.valueOf(0.4));
         meteorite5.setHowFound("Find");
 
-        meteoriteRepository.save(meteorite1);
-        meteoriteRepository.save(meteorite2);
-        meteoriteRepository.save(meteorite3);
-        meteoriteRepository.save(meteorite4);
-        meteoriteRepository.save(meteorite5);
+        meteoriteService.save(meteorite1);
+        meteoriteService.save(meteorite2);
+        meteoriteService.save(meteorite3);
+        meteoriteService.save(meteorite4);
+        meteoriteService.save(meteorite5);
     }
 
     public void initializeLoans() {
@@ -120,13 +122,20 @@ public class DBDataInitializer implements CommandLineRunner {
         loan1.setNotes("some notes");
         loan1.setExtraFiles("extra files");
 
+        Loan savedLoan = loanService.save(loan1);
+
+        // get saved loan's ID
+        Integer loanId = savedLoan.getId();
+
+        // create empty Loan
+        Loan emptyLoan = new Loan();
+
         // add Meteorite List to this loan - containing meteorite with id == 1
         List<Meteorite> meteoriteList = new ArrayList<>();
-        meteoriteList.add(meteoriteRepository.findById(Long.valueOf(1))
-                .orElseThrow(() -> new ObjectNotFoundException("meteorite", "1")));
-        loan1.setMeteorites(meteoriteList);
-
-        loanRepository.save(loan1);
+        meteoriteList.add(meteoriteService.findById(1L));
+        emptyLoan.setMeteorites(meteoriteList);
+        
+        loanService.update(String.valueOf(loanId), emptyLoan);
     }
 
     public void initializeHistories() {
@@ -134,10 +143,9 @@ public class DBDataInitializer implements CommandLineRunner {
         history1.setDate("04-24-2024");
         history1.setCategory("Example category");
         history1.setNotes("Some notes");
-        history1.setMeteorite(meteoriteRepository.findById(Long.valueOf(3))
-            .orElseThrow(() -> new ObjectNotFoundException("meteorite", "3")));
+        history1.setMeteorite(meteoriteService.findById(Long.valueOf(3)));
 
-        sampleHistoryRepository.save(history1);
+        sampleHistoryService.save(history1);
     }
 
 }
