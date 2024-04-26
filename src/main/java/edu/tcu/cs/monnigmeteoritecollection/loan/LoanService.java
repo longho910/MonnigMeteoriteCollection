@@ -2,6 +2,7 @@ package edu.tcu.cs.monnigmeteoritecollection.loan;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
+import edu.tcu.cs.monnigmeteoritecollection.meteorite.Meteorite;
 import edu.tcu.cs.monnigmeteoritecollection.system.exception.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
 
@@ -59,6 +60,8 @@ public class LoanService {
         oldLoan.setPhone(update.getPhone());
         oldLoan.setAddress(update.getAddress());
         oldLoan.setLoanDueDate(update.getLoanDueDate());
+
+        oldLoan.setMeteorites(update.getMeteorites());
 
         return this.loanRepository.save(oldLoan);
     }
