@@ -1,6 +1,10 @@
 package edu.tcu.cs.monnigmeteoritecollection.samplehistory;
 
+import jakarta.persistence.Id;
+
 public class SampleHistory {
+    @Id
+    private Integer id;
 
     private String date;        // should be in DD-MM-YYYY
     private String category;    // should contain either CREATED, UPDATED, or ARCHIVED (if a meteorite is fully deleted from the system, its SampleHistory is also deleted)
