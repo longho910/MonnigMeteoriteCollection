@@ -6,11 +6,14 @@ import edu.tcu.cs.monnigmeteoritecollection.meteorite.Meteorite;
 import edu.tcu.cs.monnigmeteoritecollection.meteorite.MeteoriteRepository;
 import edu.tcu.cs.monnigmeteoritecollection.samplehistory.SampleHistory;
 import edu.tcu.cs.monnigmeteoritecollection.samplehistory.SampleHistoryRepository;
+import edu.tcu.cs.monnigmeteoritecollection.system.exception.ObjectNotFoundException;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class DBDataInitializer implements CommandLineRunner {
@@ -116,10 +119,25 @@ public class DBDataInitializer implements CommandLineRunner {
         
         loan1.setNotes("some notes");
         loan1.setExtraFiles("extra files");
+
+        // add Meteorite List to this loan - containing meteorite with id == 1
+        List<Meteorite> meteoriteList = new ArrayList<>();
+        meteoriteList.add(meteoriteRepository.findById(Long.valueOf(1))
+                .orElseThrow(() -> new ObjectNotFoundException("meteorite", "1")));
+        loan1.setMeteorites(meteoriteList);
+
+        loanRepository.save(loan1);
     }
 
     public void initializeHistories() {
         SampleHistory history1 = new SampleHistory();
+        history1.setDate("04-24-2024");
+        history1.setCategory("Example category");
+        history1.setNotes("Some notes");
+        history1.setMeteorite(meteoriteRepository.findById(Long.valueOf(3))
+            .orElseThrow(() -> new ObjectNotFoundException("meteorite", "3")));
+
+        sampleHistoryRepository.save(history1);
     }
 
 }

@@ -71,6 +71,7 @@ public class SecurityConfiguration {
 
                 // Meteorite endpoints
                 .requestMatchers(HttpMethod.GET, this.baseUrl + "/meteorites/onloan").hasAuthority("ROLE_admin") // protect onloans endpoint
+                .requestMatchers(HttpMethod.GET, this.baseUrl + "/meteorites").permitAll()
                 .requestMatchers(HttpMethod.GET, this.baseUrl + "/meteorites/**").permitAll()
                 .requestMatchers(HttpMethod.PUT, this.baseUrl + "/meteorites/**").hasAuthority("ROLE_admin")
                 .requestMatchers(HttpMethod.POST, this.baseUrl + "/meteorites/**").hasAuthority("ROLE_admin")

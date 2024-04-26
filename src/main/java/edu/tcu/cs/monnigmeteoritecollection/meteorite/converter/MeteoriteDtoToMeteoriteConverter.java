@@ -1,12 +1,10 @@
 package edu.tcu.cs.monnigmeteoritecollection.meteorite.converter;
 
 import edu.tcu.cs.monnigmeteoritecollection.loan.Loan;
-import edu.tcu.cs.monnigmeteoritecollection.loan.converter.LoanDtoToLoanConverter;
 import edu.tcu.cs.monnigmeteoritecollection.loan.dto.LoanDto;
 import edu.tcu.cs.monnigmeteoritecollection.meteorite.Meteorite;
 import edu.tcu.cs.monnigmeteoritecollection.meteorite.dto.MeteoriteDto;
 import edu.tcu.cs.monnigmeteoritecollection.samplehistory.SampleHistory;
-import edu.tcu.cs.monnigmeteoritecollection.samplehistory.converter.SampleHistoryDtoToSampleHistoryConverter;
 import edu.tcu.cs.monnigmeteoritecollection.samplehistory.dto.SampleHistoryDto;
 
 import java.util.ArrayList;
