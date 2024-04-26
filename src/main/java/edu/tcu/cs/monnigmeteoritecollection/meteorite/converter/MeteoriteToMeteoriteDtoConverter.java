@@ -1,21 +1,21 @@
 package edu.tcu.cs.monnigmeteoritecollection.meteorite.converter;
 
-import edu.tcu.cs.monnigmeteoritecollection.loan.converter.LoanToLoanDtoConverter;
+import edu.tcu.cs.monnigmeteoritecollection.loan.Loan;
 import edu.tcu.cs.monnigmeteoritecollection.meteorite.Meteorite;
 import edu.tcu.cs.monnigmeteoritecollection.meteorite.dto.MeteoriteDto;
-import edu.tcu.cs.monnigmeteoritecollection.samplehistory.converter.SampleHistoryToSampleHistoryDtoConverter;
+import edu.tcu.cs.monnigmeteoritecollection.samplehistory.SampleHistory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MeteoriteToMeteoriteDtoConverter implements Converter<Meteorite, MeteoriteDto> {
-    private final LoanToLoanDtoConverter loanToLoanDtoConverter;
-    private final SampleHistoryToSampleHistoryDtoConverter sampleHistoryToSampleHistoryDtoConverter;
 
-    public MeteoriteToMeteoriteDtoConverter(LoanToLoanDtoConverter loanToLoanDtoConverter, SampleHistoryToSampleHistoryDtoConverter sampleHistoryToSampleHistoryDtoConverter) {
-        this.loanToLoanDtoConverter = loanToLoanDtoConverter;
-        this.sampleHistoryToSampleHistoryDtoConverter = sampleHistoryToSampleHistoryDtoConverter;
+
+    public MeteoriteToMeteoriteDtoConverter() {
     }
 
     @SuppressWarnings("null")
@@ -31,12 +31,27 @@ public class MeteoriteToMeteoriteDtoConverter implements Converter<Meteorite, Me
             source.getYearFound(),
             source.getWeight(),
             source.getHowFound(),
-            source.getSampleHistory() != null
-                ? this.sampleHistoryToSampleHistoryDtoConverter.convert(source.getSampleHistory()) : null,
-            source.getLoan() != null
-                ? this.loanToLoanDtoConverter.convert(source.getLoan()) : null
+            convertHistory(source.getSampleHistory()),
+            convertLoan(source.getLoan())
         );
 
         return meteoriteDto;
+    }
+
+    private List<Long> convertHistory(List<SampleHistory> source) {
+        List<Long> historyIdList = new ArrayList<>();
+
+        for (SampleHistory elem : source) {
+            historyIdList.add(elem.getId());
+        }
+
+        return historyIdList;
+    }
+
+    private Integer convertLoan(Loan source) {
+        if (source == null) {
+            return 0;
+        }
+        return source.getId();
     }
 }

@@ -50,8 +50,8 @@ public class MeteoriteController {
     @GetMapping("/onloan")
     public Result findAllMeteoritesOnLoan() {
         List<Meteorite> foundMeteorites = this.meteoriteService.findAllOnLoan();
-
         List<MeteoriteDto> meteoriteDtoList = new ArrayList<>();
+        
         for (Meteorite meteorite : foundMeteorites) {
             meteoriteDtoList.add(this.meteoriteToMeteoriteDtoConverter.convert(meteorite));
         }
@@ -73,7 +73,7 @@ public class MeteoriteController {
 
     // UC-9, UC-4
     // updates any number of attributes of a meteorite (includes SampleHistory and Loan)
-    // sample history will need to be created on the frontend, Loan will be created at a separate endpoint
+    // however, both SampleHistory and Loans are created on separate endpoints
     @PutMapping("/{meteoriteId}")
     public Result updateMeteorite(@PathVariable String meteoriteId, @Valid @RequestBody MeteoriteDto meteoriteDto) {
         // convert meteoriteDto to meteorite to use meteoriteService
@@ -88,13 +88,6 @@ public class MeteoriteController {
     public Result deleteMeteorite(@PathVariable String meteoriteId) {
         this.meteoriteService.delete(meteoriteId);
         return new Result(true, StatusCode.SUCCESS, "Delete Success");
-    }
-
-    // UC-10, resets SampleHistory attribute to NULL
-    @DeleteMapping("/{meteoriteId}/samplehistory")
-    public Result deleteSampleHistory(@PathVariable String meteoriteId) {
-        this.meteoriteService.deleteSampleHistory(meteoriteId);
-        return new Result(true, StatusCode.SUCCESS, "Delete Sample History Success");
     }
 
     @PostMapping("/{meteoriteId}/sub")

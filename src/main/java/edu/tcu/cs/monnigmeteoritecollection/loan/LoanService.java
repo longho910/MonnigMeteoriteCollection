@@ -41,8 +41,8 @@ public class LoanService {
         return loanList;
     }
 
-    public Loan findById(Integer loanId) {
-        return this.loanRepository.findById(loanId)
+    public Loan findById(String loanId) {
+        return this.loanRepository.findById(Integer.valueOf(loanId))
                 .orElseThrow(()->new ObjectNotFoundException("loan", String.valueOf(loanId)));
     }
 
@@ -50,8 +50,8 @@ public class LoanService {
         return this.loanRepository.save(loan);
     }
 
-    public Loan update(Integer loanId, Loan update) {
-        Loan oldLoan = this.loanRepository.findById(loanId)
+    public Loan update(String loanId, Loan update) {
+        Loan oldLoan = this.loanRepository.findById(Integer.valueOf(loanId))
             .orElseThrow(() -> new ObjectNotFoundException("loan", loanId));
         oldLoan.setName(update.getName());
         oldLoan.setInstitution(update.getInstitution());
@@ -60,10 +60,12 @@ public class LoanService {
         oldLoan.setAddress(update.getAddress());
         oldLoan.setLoanDueDate(update.getLoanDueDate());
 
+        oldLoan.setMeteorites(update.getMeteorites());
+
         return this.loanRepository.save(oldLoan);
     }
 
     public void delete(Integer loanId) {
-
+        this.loanRepository.deleteById(loanId);
     }
 }

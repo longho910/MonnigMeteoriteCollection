@@ -1,9 +1,15 @@
 package edu.tcu.cs.monnigmeteoritecollection.meteorite.converter;
 
-import edu.tcu.cs.monnigmeteoritecollection.loan.converter.LoanDtoToLoanConverter;
+import edu.tcu.cs.monnigmeteoritecollection.loan.LoanRepository;
 import edu.tcu.cs.monnigmeteoritecollection.meteorite.Meteorite;
 import edu.tcu.cs.monnigmeteoritecollection.meteorite.dto.MeteoriteDto;
-import edu.tcu.cs.monnigmeteoritecollection.samplehistory.converter.SampleHistoryDtoToSampleHistoryConverter;
+import edu.tcu.cs.monnigmeteoritecollection.samplehistory.SampleHistory;
+import edu.tcu.cs.monnigmeteoritecollection.system.exception.ObjectNotFoundException;
+import edu.tcu.cs.monnigmeteoritecollection.samplehistory.SampleHistoryRepository;
+
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -11,12 +17,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class MeteoriteDtoToMeteoriteConverter implements Converter<MeteoriteDto, Meteorite> {
 
-    private final LoanDtoToLoanConverter loanDtoToLoanConverter;
-    private final SampleHistoryDtoToSampleHistoryConverter sampleHistoryDtoToSampleHistoryConverter;
+    private final SampleHistoryRepository sampleHistoryRepository;
+    private final LoanRepository loanRepository;
 
-    public MeteoriteDtoToMeteoriteConverter(LoanDtoToLoanConverter loanDtoToLoanConverter, SampleHistoryDtoToSampleHistoryConverter sampleHistoryDtoToSampleHistoryConverter) {
-        this.loanDtoToLoanConverter = loanDtoToLoanConverter;
-        this.sampleHistoryDtoToSampleHistoryConverter = sampleHistoryDtoToSampleHistoryConverter;
+    public MeteoriteDtoToMeteoriteConverter(SampleHistoryRepository sampleHistoryRepository, LoanRepository loanRepository) {
+        this.sampleHistoryRepository = sampleHistoryRepository;
+        this.loanRepository = loanRepository;
     }
 
     @SuppressWarnings("null")
@@ -33,9 +39,20 @@ public class MeteoriteDtoToMeteoriteConverter implements Converter<MeteoriteDto,
         meteorite.setWeight(source.weight());
 
         meteorite.setHowFound(source.howFound());
-        meteorite.setSampleHistory(sampleHistoryDtoToSampleHistoryConverter.convert(source.sampleHistory()));
-        meteorite.setLoan(loanDtoToLoanConverter.convert(source.loan()));
+        
+        meteorite.setSampleHistory(convertHistory(source.sampleHistories()));
+        meteorite.setLoan(this.loanRepository.findById(source.loan())
+            .orElseThrow(() -> new ObjectNotFoundException("Meteorite not found", String.valueOf(source.loan()))));
 
         return meteorite;
+    }
+
+    private List<SampleHistory> convertHistory(List<Long> source) {
+        List<SampleHistory> foundHistories = new ArrayList<>();
+        for (Long elem : source) {
+            foundHistories.add(this.sampleHistoryRepository.findById(elem)
+                .orElseThrow(() -> new ObjectNotFoundException("Meteorite not found", String.valueOf(elem))));
+        }
+        return foundHistories;
     }
 }

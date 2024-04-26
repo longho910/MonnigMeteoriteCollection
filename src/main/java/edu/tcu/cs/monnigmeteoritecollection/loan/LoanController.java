@@ -34,7 +34,7 @@ public class LoanController {
 
     // UC-11. UC-12
     @GetMapping("/{loanId}")
-    public Result findLoanById(@PathVariable Integer loanId) {
+    public Result findLoanById(@PathVariable String loanId) {
 
         Loan foundLoan = this.loanService.findById(loanId);
         LoanDto loanDto = this.loanToLoanDtoConverter.convert(foundLoan);
@@ -97,8 +97,9 @@ public class LoanController {
 
     // UC-13, UC-15
     // update loan -- this method also handles ARCHIVE LOAN (by sending an empty loanDto with only isArchived changed)
+    // also use this method to add Meteorites to a given Loan
     @PutMapping("/{loanId}")
-    public Result updateLoan(@PathVariable Integer loanId, @Validated @RequestBody LoanDto loanDto) {
+    public Result updateLoan(@PathVariable String loanId, @Validated @RequestBody LoanDto loanDto) {
         Loan update = this.loanDtoToLoanConverter.convert(loanDto);
         Loan updatedLoan = this.loanService.update(loanId, update);
         LoanDto updatedLoanDto = this.loanToLoanDtoConverter.convert(updatedLoan);

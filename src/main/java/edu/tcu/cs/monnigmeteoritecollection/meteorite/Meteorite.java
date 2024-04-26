@@ -2,10 +2,18 @@ package edu.tcu.cs.monnigmeteoritecollection.meteorite;
 
 import edu.tcu.cs.monnigmeteoritecollection.loan.Loan;
 import edu.tcu.cs.monnigmeteoritecollection.samplehistory.SampleHistory;
-import jakarta.persistence.*;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Meteorite implements Serializable {
@@ -25,10 +33,13 @@ public class Meteorite implements Serializable {
 
     // further attributes to assist with use cases
     private String howFound;
-    @OneToOne(mappedBy = "meteorite", cascade = CascadeType.ALL, orphanRemoval = true)
-    private SampleHistory sampleHistory;
+
+    
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "meteorite")
+    private List<SampleHistory> sampleHistory = new ArrayList<>();
+
     @ManyToOne
-    private Loan loan;
+    private Loan loan;   // store the loanId as opposed to entire Loan
 
 
     // constructor ----------------------------------------------------------------------------------------------------
@@ -52,11 +63,11 @@ public class Meteorite implements Serializable {
         this.howFound = howFound;
     }
 
-    public SampleHistory getSampleHistory() {
+    public List<SampleHistory> getSampleHistory() {
         return sampleHistory;
     }
 
-    public void setSampleHistory(SampleHistory sampleHistory) {
+    public void setSampleHistory(List<SampleHistory> sampleHistory) {
         this.sampleHistory = sampleHistory;
     }
 

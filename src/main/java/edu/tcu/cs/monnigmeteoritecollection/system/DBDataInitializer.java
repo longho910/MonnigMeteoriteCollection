@@ -1,24 +1,43 @@
 package edu.tcu.cs.monnigmeteoritecollection.system;
 
+import edu.tcu.cs.monnigmeteoritecollection.loan.Loan;
+import edu.tcu.cs.monnigmeteoritecollection.loan.LoanService;
 import edu.tcu.cs.monnigmeteoritecollection.meteorite.Meteorite;
-import edu.tcu.cs.monnigmeteoritecollection.meteorite.MeteoriteRepository;
+import edu.tcu.cs.monnigmeteoritecollection.meteorite.MeteoriteService;
+import edu.tcu.cs.monnigmeteoritecollection.samplehistory.SampleHistory;
+import edu.tcu.cs.monnigmeteoritecollection.samplehistory.SampleHistoryService;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class DBDataInitializer implements CommandLineRunner {
     
-    private final MeteoriteRepository meteoriteRepository;
+    private final MeteoriteService meteoriteService;
+    private final LoanService loanService;
+    private final SampleHistoryService sampleHistoryService;
 
-    public DBDataInitializer(MeteoriteRepository meteoriteRepository) {
-        this.meteoriteRepository = meteoriteRepository;
+    public DBDataInitializer(MeteoriteService meteoriteService, SampleHistoryService sampleHistoryService, LoanService loanService) {
+        this.meteoriteService = meteoriteService;
+        this.sampleHistoryService = sampleHistoryService;
+        this.loanService = loanService;
     }
 
     @Override
     public void run(String... args) throws Exception {
+        initializeMeteorites();
+        System.out.println("METEORITES INIT");
+        initializeLoans();
+        System.out.println("LOANS INIT");
+        initializeHistories();
+        System.out.println("HISTORIES INIT");
+    }
 
+    public void initializeMeteorites() {
         // Name	Monnig Number	Country	Class	Group	Year Found	Sample Weight (g)
         // Abbott	M398.1	USA	Ordinary Chondrite	H	1951	325.1
         Meteorite meteorite1 = new Meteorite();
@@ -81,10 +100,52 @@ public class DBDataInitializer implements CommandLineRunner {
         meteorite5.setWeight(BigDecimal.valueOf(0.4));
         meteorite5.setHowFound("Find");
 
-        meteoriteRepository.save(meteorite1);
-        meteoriteRepository.save(meteorite2);
-        meteoriteRepository.save(meteorite3);
-        meteoriteRepository.save(meteorite4);
-        meteoriteRepository.save(meteorite5);
+        meteoriteService.save(meteorite1);
+        meteoriteService.save(meteorite2);
+        meteoriteService.save(meteorite3);
+        meteoriteService.save(meteorite4);
+        meteoriteService.save(meteorite5);
     }
+
+    public void initializeLoans() {
+        Loan loan1 = new Loan();
+        loan1.setName("Loan1");
+        loan1.setInstitution("TCU");
+        loan1.setEmail("null@gmail.com");
+        loan1.setPhone("999-999-9999");
+        loan1.setAddress("1111 North Main Street, Fort Worth, Texas");
+        loan1.setLoanStartDate("04-24-2024");
+        loan1.setLoanDueDate("04-24-2025");
+
+        loan1.setArchived(false);
+        
+        loan1.setNotes("some notes");
+        loan1.setExtraFiles("extra files");
+
+        Loan savedLoan = loanService.save(loan1);
+
+        // get saved loan's ID
+        Integer loanId = savedLoan.getId();
+
+        // create empty Loan
+        Loan emptyLoan = new Loan();
+
+        // add Meteorite List to this loan - containing meteorite with id == 1
+        List<Meteorite> meteoriteList = new ArrayList<>();
+        meteoriteList.add(meteoriteService.findById(1L));
+        emptyLoan.setMeteorites(meteoriteList);
+        
+        loanService.update(String.valueOf(loanId), emptyLoan);
+    }
+
+    public void initializeHistories() {
+        SampleHistory history1 = new SampleHistory();
+        history1.setDate("04-24-2024");
+        history1.setCategory("Example category");
+        history1.setNotes("Some notes");
+        history1.setMeteorite(meteoriteService.findById(Long.valueOf(3)));
+
+        sampleHistoryService.save(history1);
+    }
+
 }
