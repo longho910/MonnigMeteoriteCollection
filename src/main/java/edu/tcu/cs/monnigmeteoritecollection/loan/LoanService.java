@@ -53,14 +53,30 @@ public class LoanService {
     public Loan update(String loanId, Loan update) {
         Loan oldLoan = this.loanRepository.findById(Integer.valueOf(loanId))
             .orElseThrow(() -> new ObjectNotFoundException("loan", loanId));
-        oldLoan.setName(update.getName());
-        oldLoan.setInstitution(update.getInstitution());
-        oldLoan.setEmail(update.getEmail());
-        oldLoan.setPhone(update.getPhone());
-        oldLoan.setAddress(update.getAddress());
-        oldLoan.setLoanDueDate(update.getLoanDueDate());
-
-        oldLoan.setMeteorites(update.getMeteorites());
+        if (update.getName() != null) {
+            oldLoan.setName(update.getName());
+        }
+        if (update.getInstitution() != null) {
+            oldLoan.setInstitution(update.getInstitution());
+        }
+        if (update.getEmail() != null) {
+            oldLoan.setEmail(update.getEmail());
+        }
+        if (update.getPhone() != null) {
+            oldLoan.setPhone(update.getPhone());
+        }
+        if (update.getAddress() != null) {
+            oldLoan.setAddress(update.getAddress());
+        }
+        if (update.getLoanDueDate() != null) {
+            oldLoan.setLoanDueDate(update.getLoanDueDate());
+        }
+        if (update.getNotes() != null) {
+            oldLoan.setNotes(update.getNotes());
+        }
+        if (update.getMeteorites() != null) {
+            oldLoan.setMeteorites(update.getMeteorites());
+        }
 
         return this.loanRepository.save(oldLoan);
     }
