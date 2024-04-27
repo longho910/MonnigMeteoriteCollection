@@ -20,6 +20,7 @@ import edu.tcu.cs.monnigmeteoritecollection.system.StatusCode;
 import jakarta.validation.Valid;
 
 @RequestMapping("${api.endpoint.base-url}/histories")
+@CrossOrigin(origins = "*") // Allow requests from any origin
 public class SampleHistoryController {
     
     private final SampleHistoryDtoToSampleHistoryConverter sampleHistoryDtoToSampleHistoryConverter;

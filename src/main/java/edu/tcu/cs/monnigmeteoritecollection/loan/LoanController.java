@@ -21,6 +21,7 @@ import edu.tcu.cs.monnigmeteoritecollection.loan.dto.LoanDto;
 
 @RestController
 @RequestMapping("${api.endpoint.base-url}/loans")
+@CrossOrigin(origins = "*") // Allow requests from any origin
 public class LoanController {
     private final LoanService loanService;
     private final LoanToLoanDtoConverter loanToLoanDtoConverter;

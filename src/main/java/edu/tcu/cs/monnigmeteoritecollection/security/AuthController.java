@@ -11,6 +11,7 @@ import edu.tcu.cs.monnigmeteoritecollection.system.*;
 
 @RestController
 @RequestMapping("${api.endpoint.base-url}/users")
+@CrossOrigin(origins = "*") // Allow requests from any origin
 public class AuthController {
     private final AuthService authService;
 
