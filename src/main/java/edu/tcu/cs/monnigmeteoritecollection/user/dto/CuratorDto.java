@@ -1,4 +1,4 @@
-package edu.tcu.cs.monnigmeteoritecollection.curator.dto;
+package edu.tcu.cs.monnigmeteoritecollection.user.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 

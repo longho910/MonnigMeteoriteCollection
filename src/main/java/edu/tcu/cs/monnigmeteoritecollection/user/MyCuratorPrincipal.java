@@ -1,4 +1,4 @@
-package edu.tcu.cs.monnigmeteoritecollection.curator;
+package edu.tcu.cs.monnigmeteoritecollection.user;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,10 +9,10 @@ import java.util.Arrays;
 import java.util.Collection;
 
 public class MyCuratorPrincipal implements UserDetails {
-   private Curator curator;
+   private final User user;
 
-    public MyCuratorPrincipal(Curator curator) {
-        this.curator = curator;
+    public MyCuratorPrincipal(User user) {
+        this.user = user;
     }
 
     @Override
@@ -20,19 +20,19 @@ public class MyCuratorPrincipal implements UserDetails {
         // Convert a user's roles from space-delimited string to a list of SimpleGrantedAuthority objects.
         // E.g., john's roles are stored in a string like "admin user moderator", we need to convert it to a list of GrantedAuthority.
         // Before conversion, we need to add this "ROLE_" prefix to each role name.
-        return Arrays.stream(StringUtils.tokenizeToStringArray(this.curator.getRoles(), " "))
+        return Arrays.stream(StringUtils.tokenizeToStringArray(this.user.getRoles(), " "))
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .toList();
     }
 
         @Override
     public String getPassword() {
-        return this.curator.getPassword();
+        return this.user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return this.curator.getUsername();
+        return this.user.getUsername();
     }
 
     @Override
@@ -52,10 +52,10 @@ public class MyCuratorPrincipal implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return this.curator.isEnabled();
+        return this.user.isEnabled();
     }
 
-    public Curator getCurator() {
-        return curator;
+    public User getCurator() {
+        return user;
     }
 }
