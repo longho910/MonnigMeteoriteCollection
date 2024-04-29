@@ -3,6 +3,8 @@ package edu.tcu.cs.monnigmeteoritecollection.samplehistory;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +22,7 @@ import edu.tcu.cs.monnigmeteoritecollection.system.StatusCode;
 import jakarta.validation.Valid;
 
 @RequestMapping("${api.endpoint.base-url}/histories")
+@CrossOrigin(origins = "*") // Allow requests from any origin
 public class SampleHistoryController {
     
     private final SampleHistoryDtoToSampleHistoryConverter sampleHistoryDtoToSampleHistoryConverter;

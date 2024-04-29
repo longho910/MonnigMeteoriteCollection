@@ -143,7 +143,7 @@ public class DBDataInitializer implements CommandLineRunner {
         history1.setDate("04-24-2024");
         history1.setCategory("Example category");
         history1.setNotes("Some notes");
-        history1.setMeteorite(meteoriteService.findById(Long.valueOf(3)));
+        history1.setMeteorite(meteoriteService.findById(3L));
 
         sampleHistoryService.save(history1);
     }

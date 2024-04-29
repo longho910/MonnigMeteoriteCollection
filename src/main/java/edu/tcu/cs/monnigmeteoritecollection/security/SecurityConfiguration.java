@@ -64,7 +64,9 @@ public class SecurityConfiguration {
             .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
 
                 // Loan endpoints - PROTECTED
-                .requestMatchers(HttpMethod.GET, this.baseUrl + "/loans/**").hasAuthority("ROLE_admin")
+                .requestMatchers(HttpMethod.GET, this.baseUrl + "/loans/**").permitAll()
+                // .requestMatchers(HttpMethod.GET, this.baseUrl + "/loans/**").hasAuthority("ROLE_admin")
+
                 .requestMatchers(HttpMethod.PUT, this.baseUrl + "/loans/**").hasAuthority("ROLE_admin")
                 .requestMatchers(HttpMethod.POST, this.baseUrl + "/loans/**").hasAuthority("ROLE_admin")
                 .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/loans/**").hasAuthority("ROLE_admin")
