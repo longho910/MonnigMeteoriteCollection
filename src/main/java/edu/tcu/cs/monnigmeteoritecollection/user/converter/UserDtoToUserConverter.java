@@ -4,14 +4,14 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 import edu.tcu.cs.monnigmeteoritecollection.user.User;
-import edu.tcu.cs.monnigmeteoritecollection.user.dto.CuratorDto;
+import edu.tcu.cs.monnigmeteoritecollection.user.dto.UserDto;
 
 @Component
-public class CuratorDtoToCuratorConverter implements Converter<CuratorDto, User> {
+public class UserDtoToUserConverter implements Converter<UserDto, User> {
 
     @SuppressWarnings("null")
     @Override
-    public User convert(CuratorDto source) {
+    public User convert(UserDto source) {
         User User = new User();
         User.setUsername(source.username());
         User.setEnabled(source.enabled());

@@ -4,9 +4,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import edu.tcu.cs.monnigmeteoritecollection.user.User;
-import edu.tcu.cs.monnigmeteoritecollection.user.MyCuratorPrincipal;
-import edu.tcu.cs.monnigmeteoritecollection.user.dto.CuratorDto;
-import edu.tcu.cs.monnigmeteoritecollection.user.converter.CuratorToCuratorDtoConverter;
+import edu.tcu.cs.monnigmeteoritecollection.user.MyUserPrincipal;
+import edu.tcu.cs.monnigmeteoritecollection.user.dto.UserDto;
+import edu.tcu.cs.monnigmeteoritecollection.user.converter.UserToUserDtoConverter;
 
 
 import java.util.HashMap;
@@ -15,24 +15,24 @@ import java.util.Map;
 @Service
 public class AuthService {
     private final JwtProvider jwtProvider;
-    private final CuratorToCuratorDtoConverter curatorToCuratorDtoConverter;
+    private final UserToUserDtoConverter userToUserDtoConverter;
 
-    public AuthService(JwtProvider jwtProvider, CuratorToCuratorDtoConverter curatorToCuratorDtoConverter) {
+    public AuthService(JwtProvider jwtProvider, UserToUserDtoConverter userToUserDtoConverter) {
         this.jwtProvider = jwtProvider;
-        this.curatorToCuratorDtoConverter = curatorToCuratorDtoConverter;
+        this.userToUserDtoConverter = userToUserDtoConverter;
     }
 
     public Map<String, Object> createLoginInfo(Authentication authentication) {
         // Create curator info.
-        MyCuratorPrincipal principal = (MyCuratorPrincipal)authentication.getPrincipal();
+        MyUserPrincipal principal = (MyUserPrincipal)authentication.getPrincipal();
         User user = principal.getCurator();
-        CuratorDto curatorDto = this.curatorToCuratorDtoConverter.convert(user);
+        UserDto userDto = this.userToUserDtoConverter.convert(user);
         // Create a JWT.
         String token = this.jwtProvider.createToken(authentication);
 
         Map<String, Object> loginResultMap = new HashMap<>();
 
-        loginResultMap.put("curatorInfo", curatorDto);
+        loginResultMap.put("curatorInfo", userDto);
         loginResultMap.put("token", token);
 
         return loginResultMap;

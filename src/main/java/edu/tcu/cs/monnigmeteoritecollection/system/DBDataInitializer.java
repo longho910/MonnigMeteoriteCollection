@@ -7,6 +7,8 @@ import edu.tcu.cs.monnigmeteoritecollection.meteorite.MeteoriteService;
 import edu.tcu.cs.monnigmeteoritecollection.samplehistory.SampleHistory;
 import edu.tcu.cs.monnigmeteoritecollection.samplehistory.SampleHistoryService;
 
+import edu.tcu.cs.monnigmeteoritecollection.user.User;
+import edu.tcu.cs.monnigmeteoritecollection.user.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -21,20 +23,53 @@ public class DBDataInitializer implements CommandLineRunner {
     private final LoanService loanService;
     private final SampleHistoryService sampleHistoryService;
 
-    public DBDataInitializer(MeteoriteService meteoriteService, SampleHistoryService sampleHistoryService, LoanService loanService) {
+    private final UserService userService;
+
+    public DBDataInitializer(MeteoriteService meteoriteService, SampleHistoryService sampleHistoryService, LoanService loanService, UserService userService) {
         this.meteoriteService = meteoriteService;
         this.sampleHistoryService = sampleHistoryService;
         this.loanService = loanService;
+        this.userService = userService;
     }
 
     @Override
     public void run(String... args) throws Exception {
         initializeMeteorites();
-        System.out.println("METEORITES INIT");
+        System.out.println("METEORITES DB INIT");
         initializeLoans();
-        System.out.println("LOANS INIT");
+        System.out.println("LOANS DB INIT");
         initializeHistories();
-        System.out.println("HISTORIES INIT");
+        System.out.println("HISTORIES DB INIT");
+        initializeUsers();
+        System.out.println("USERS DB INIT");
+    }
+
+    public void initializeUsers() {
+        // Create some users.
+        User u1 = new User();
+        u1.setId(1);
+        u1.setUsername("john");
+        u1.setPassword("123");
+        u1.setEnabled(true);
+        u1.setRoles("admin user");
+
+        User u2 = new User();
+        u2.setId(2);
+        u2.setUsername("eric");
+        u2.setPassword("123");
+        u2.setEnabled(true);
+        u2.setRoles("user");
+
+        User u3 = new User();
+        u3.setId(3);
+        u3.setUsername("tom");
+        u3.setPassword("123");
+        u3.setEnabled(false);
+        u3.setRoles("user");
+
+        this.userService.save(u1);
+        this.userService.save(u2);
+        this.userService.save(u3);
     }
 
     public void initializeMeteorites() {
