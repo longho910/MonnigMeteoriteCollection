@@ -147,6 +147,6 @@ public class SecurityConfiguration {
 
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
-        return jwtAuthenticationConverter;
+        return jwtAuthenticationConverter; // use this converter to convert json web token to spring security authentication
     }
 }
