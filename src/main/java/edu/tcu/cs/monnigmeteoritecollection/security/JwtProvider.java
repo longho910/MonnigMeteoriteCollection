@@ -24,8 +24,9 @@ public class JwtProvider {
 
         //prepare a claim called authorities
         String authorities = authentication.getAuthorities().stream()
-                .map(grantedAuthority -> grantedAuthority.getAuthority())
-                .collect(Collectors.joining(" "));// MUST BE space-delimited as we defined earlier.
+                .map(grantedAuthority -> grantedAuthority.getAuthority())// return "ROLE_curator", "ROLE_user"
+                .collect(Collectors.joining(" "));// return "ROLE_curator ROLE_user"
+
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)

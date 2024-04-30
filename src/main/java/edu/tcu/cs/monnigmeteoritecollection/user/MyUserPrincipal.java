@@ -55,7 +55,7 @@ public class MyUserPrincipal implements UserDetails {
         return this.user.isEnabled();
     }
 
-    public User getCurator() {
+    public User getUser() {
         return user;
     }
 }

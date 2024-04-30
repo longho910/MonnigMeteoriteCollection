@@ -50,6 +50,7 @@ public class SecurityConfiguration {
         this.customBearerTokenAuthenticationEntryPoint = customBearerTokenAuthenticationEntryPoint;
         this.customBearerTokenAccessDeniedHandler = customBearerTokenAccessDeniedHandler;
 
+
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         keyPairGenerator.initialize(2048); // The generated key will have a size of 2048 bits.
         KeyPair keyPair = keyPairGenerator.generateKeyPair();
@@ -62,28 +63,33 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
             .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
+                    // users
+                .requestMatchers(HttpMethod.GET, this.baseUrl + "/users/**").hasAuthority("ROLE_curator") // Protect the endpoint.
+                .requestMatchers(HttpMethod.POST, this.baseUrl + "/users").hasAuthority("ROLE_curator") // Protect the endpoint.
+                .requestMatchers(HttpMethod.PUT, this.baseUrl + "/users/**").hasAuthority("ROLE_curator") // Protect the endpoint.
+                .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/users/**").hasAuthority("ROLE_curator") // Protect the endpoint.
 
                 // Loan endpoints - PROTECTED
                 .requestMatchers(HttpMethod.GET, this.baseUrl + "/loans/**").permitAll()
-                // .requestMatchers(HttpMethod.GET, this.baseUrl + "/loans/**").hasAuthority("ROLE_admin")
+                // .requestMatchers(HttpMethod.GET, this.baseUrl + "/loans/**").hasAuthority("ROLE_curator")
 
-                .requestMatchers(HttpMethod.PUT, this.baseUrl + "/loans/**").hasAuthority("ROLE_admin")
-                .requestMatchers(HttpMethod.POST, this.baseUrl + "/loans/**").hasAuthority("ROLE_admin")
-                .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/loans/**").hasAuthority("ROLE_admin")
+                .requestMatchers(HttpMethod.PUT, this.baseUrl + "/loans/**").hasAuthority("ROLE_curator")
+                .requestMatchers(HttpMethod.POST, this.baseUrl + "/loans/**").hasAuthority("ROLE_curator")
+                .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/loans/**").hasAuthority("ROLE_curator")
 
                 // Meteorite endpoints
-                .requestMatchers(HttpMethod.GET, this.baseUrl + "/meteorites/onloan").hasAuthority("ROLE_admin") // protect onloans endpoint
+                .requestMatchers(HttpMethod.GET, this.baseUrl + "/meteorites/onloan").hasAuthority("ROLE_curator") // protect onloans endpoint
                 .requestMatchers(HttpMethod.GET, this.baseUrl + "/meteorites").permitAll()
                 .requestMatchers(HttpMethod.GET, this.baseUrl + "/meteorites/**").permitAll()
-                .requestMatchers(HttpMethod.PUT, this.baseUrl + "/meteorites/**").hasAuthority("ROLE_admin")
-                .requestMatchers(HttpMethod.POST, this.baseUrl + "/meteorites/**").hasAuthority("ROLE_admin")
-                .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/meteorites/**").hasAuthority("ROLE_admin")
+                .requestMatchers(HttpMethod.PUT, this.baseUrl + "/meteorites/**").hasAuthority("ROLE_curator")
+                .requestMatchers(HttpMethod.POST, this.baseUrl + "/meteorites/**").hasAuthority("ROLE_curator")
+                .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/meteorites/**").hasAuthority("ROLE_curator")
 
                 // SampleHistory endpoints
                 .requestMatchers(HttpMethod.GET, this.baseUrl + "/histories/**").permitAll()
-                .requestMatchers(HttpMethod.PUT, this.baseUrl + "/histories/**").hasAuthority("ROLE_admin")
-                .requestMatchers(HttpMethod.POST, this.baseUrl + "/histories/**").hasAuthority("ROLE_admin")
-                .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/histories/**").hasAuthority("ROLE_admin")
+                .requestMatchers(HttpMethod.PUT, this.baseUrl + "/histories/**").hasAuthority("ROLE_curator")
+                .requestMatchers(HttpMethod.POST, this.baseUrl + "/histories/**").hasAuthority("ROLE_curator")
+                .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/histories/**").hasAuthority("ROLE_curator")
 
                 .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll() //makes H2 public
 
@@ -102,7 +108,7 @@ public class SecurityConfiguration {
                 the incoming requests (except the ones excluded above) using JWT authentication.
                 */
             .sessionManagement(sessionManagement ->
-                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // turn off session
             .build();
     }
 

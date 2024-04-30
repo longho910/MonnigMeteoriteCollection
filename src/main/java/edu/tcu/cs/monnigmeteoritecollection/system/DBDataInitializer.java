@@ -51,7 +51,7 @@ public class DBDataInitializer implements CommandLineRunner {
         u1.setUsername("john");
         u1.setPassword("123");
         u1.setEnabled(true);
-        u1.setRoles("admin user");
+        u1.setRoles("curator user");
 
         User u2 = new User();
         u2.setId(2);

@@ -25,14 +25,15 @@ public class AuthService {
     public Map<String, Object> createLoginInfo(Authentication authentication) {
         // Create curator info.
         MyUserPrincipal principal = (MyUserPrincipal)authentication.getPrincipal();
-        User user = principal.getCurator();
+        User user = principal.getUser();
         UserDto userDto = this.userToUserDtoConverter.convert(user);
+
         // Create a JWT.
         String token = this.jwtProvider.createToken(authentication);
 
         Map<String, Object> loginResultMap = new HashMap<>();
 
-        loginResultMap.put("curatorInfo", userDto);
+        loginResultMap.put("userInfo", userDto);
         loginResultMap.put("token", token);
 
         return loginResultMap;
