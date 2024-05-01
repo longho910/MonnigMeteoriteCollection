@@ -2,6 +2,8 @@ package edu.tcu.cs.monnigmeteoritecollection.meteorite;
 
 import edu.tcu.cs.monnigmeteoritecollection.system.exception.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -88,5 +90,9 @@ public class MeteoriteService {
             // Save the new subsample in the repository
             return meteoriteRepository.save(subMeteorite);
         }).orElseThrow(() -> new ObjectNotFoundException("meteorite", meteoriteId));
+    }
+
+    public Page<Meteorite> findAll(Pageable pageable) {
+        return this.meteoriteRepository.findAll(pageable);
     }
 }
