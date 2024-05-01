@@ -81,6 +81,7 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.GET, this.baseUrl + "/meteorites/onloan").hasAuthority("ROLE_curator") // protect onloans endpoint
                 .requestMatchers(HttpMethod.GET, this.baseUrl + "/meteorites").permitAll()
                 .requestMatchers(HttpMethod.GET, this.baseUrl + "/meteorites/**").permitAll()
+                    .requestMatchers(HttpMethod.POST, this.baseUrl + "/meteorites/search").permitAll()
                 .requestMatchers(HttpMethod.PUT, this.baseUrl + "/meteorites/**").hasAuthority("ROLE_curator")
                 .requestMatchers(HttpMethod.POST, this.baseUrl + "/meteorites/**").hasAuthority("ROLE_curator")
                 .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/meteorites/**").hasAuthority("ROLE_curator")

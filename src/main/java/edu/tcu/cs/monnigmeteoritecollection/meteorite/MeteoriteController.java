@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("${api.endpoint.base-url}/meteorites")
@@ -99,6 +100,13 @@ public class MeteoriteController {
         MeteoriteDto savedMeteoriteDto = this.meteoriteToMeteoriteDtoConverter.convert(savedMeteorite);
 
         return new Result(true, StatusCode.SUCCESS, "Add Sub Success", savedMeteoriteDto);
+    }
+
+    @PostMapping("/search")
+    public Result findMeteoritesByCriteria(@RequestBody Map<String, String> searchCriteria, Pageable pageable) {
+        Page<Meteorite> meteoritePage = this.meteoriteService.findByCriteria(searchCriteria, pageable);
+        Page<MeteoriteDto> meteoriteDtoPage = meteoritePage.map(this.meteoriteToMeteoriteDtoConverter::convert);
+        return new Result(true, StatusCode.SUCCESS, "Search Success", meteoriteDtoPage);
     }
 
 }
