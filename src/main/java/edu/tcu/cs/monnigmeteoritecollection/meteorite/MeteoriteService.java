@@ -129,6 +129,7 @@ public class MeteoriteService {
         }
 
         return this.meteoriteRepository.findAll(spec, pageable);
+    }
 
     public Page<Meteorite> findAll(Pageable pageable) {
         return this.meteoriteRepository.findAll(pageable);
