@@ -2,10 +2,15 @@ package edu.tcu.cs.monnigmeteoritecollection.meteorite;
 
 import edu.tcu.cs.monnigmeteoritecollection.system.exception.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -88,5 +93,37 @@ public class MeteoriteService {
             // Save the new subsample in the repository
             return meteoriteRepository.save(subMeteorite);
         }).orElseThrow(() -> new ObjectNotFoundException("meteorite", meteoriteId));
+    }
+
+    public Page<Meteorite> findByCriteria(Map<String, String> searchCriteria, Pageable pageable) {
+        Specification<Meteorite> spec = Specification.where(null);
+
+        if (StringUtils.hasLength(searchCriteria.get("monnigNumber"))) {
+            spec = spec.and(MeteoriteSpecs.hasMonnigNumber(searchCriteria.get("monnigNumber")));
+        }
+
+        if (StringUtils.hasLength(searchCriteria.get("name"))) {
+            spec = spec.and(MeteoriteSpecs.containsName(searchCriteria.get("name")));
+        }
+
+        if (StringUtils.hasLength(searchCriteria.get("_class"))) {
+            spec = spec.and(MeteoriteSpecs.containsClass(searchCriteria.get("_class")));
+        }
+
+
+        if (StringUtils.hasLength(searchCriteria.get("_group"))) {
+            spec = spec.and(MeteoriteSpecs.containsGroup(searchCriteria.get("_group")));
+        }
+
+
+        if (StringUtils.hasLength(searchCriteria.get("country"))) {
+            spec = spec.and(MeteoriteSpecs.containsCountry(searchCriteria.get("country")));
+        }
+
+        if (StringUtils.hasLength(searchCriteria.get("howFound"))) {
+            spec = spec.and(MeteoriteSpecs.hasHowFound(searchCriteria.get("howFound")));
+        }
+
+        return this.meteoriteRepository.findAll(spec, pageable);
     }
 }
