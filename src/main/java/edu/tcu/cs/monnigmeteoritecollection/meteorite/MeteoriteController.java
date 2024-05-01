@@ -6,6 +6,8 @@ import edu.tcu.cs.monnigmeteoritecollection.meteorite.dto.MeteoriteDto;
 import edu.tcu.cs.monnigmeteoritecollection.system.Result;
 import edu.tcu.cs.monnigmeteoritecollection.system.StatusCode;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -36,15 +38,13 @@ public class MeteoriteController {
     }
 
     @GetMapping
-    public Result findAllMeteorites() {
-        List<Meteorite> foundMeteorites = this.meteoriteService.findAll();
+    public Result findAllMeteorites(Pageable pageable) { // create page request object
+        Page<Meteorite> meteoritePage = this.meteoriteService.findAll(pageable);
 
-        List<MeteoriteDto> meteoriteDtoList = new ArrayList<>();
-        for (Meteorite meteorite : foundMeteorites) {
-            meteoriteDtoList.add(this.meteoriteToMeteoriteDtoConverter.convert(meteorite));
-        }
+        Page<MeteoriteDto> meteoriteDtoPage = meteoritePage
+                .map(this.meteoriteToMeteoriteDtoConverter::convert);
 
-        return new Result(true, StatusCode.SUCCESS, "Find All Success", meteoriteDtoList);
+        return new Result(true, StatusCode.SUCCESS, "Find All Success", meteoriteDtoPage);
     }
 
     // UC-16
