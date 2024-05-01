@@ -4,7 +4,10 @@ import edu.tcu.cs.monnigmeteoritecollection.system.exception.ObjectNotFoundExcep
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
 import org.springframework.data.jpa.domain.Specification;
+
+
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -95,6 +98,7 @@ public class MeteoriteService {
         }).orElseThrow(() -> new ObjectNotFoundException("meteorite", meteoriteId));
     }
 
+
     public Page<Meteorite> findByCriteria(Map<String, String> searchCriteria, Pageable pageable) {
         Specification<Meteorite> spec = Specification.where(null);
 
@@ -125,5 +129,9 @@ public class MeteoriteService {
         }
 
         return this.meteoriteRepository.findAll(spec, pageable);
+
+    public Page<Meteorite> findAll(Pageable pageable) {
+        return this.meteoriteRepository.findAll(pageable);
+
     }
 }

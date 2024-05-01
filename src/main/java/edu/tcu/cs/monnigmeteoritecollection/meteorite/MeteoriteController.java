@@ -39,15 +39,13 @@ public class MeteoriteController {
     }
 
     @GetMapping
-    public Result findAllMeteorites() {
-        List<Meteorite> foundMeteorites = this.meteoriteService.findAll();
+    public Result findAllMeteorites(Pageable pageable) { // create page request object
+        Page<Meteorite> meteoritePage = this.meteoriteService.findAll(pageable);
 
-        List<MeteoriteDto> meteoriteDtoList = new ArrayList<>();
-        for (Meteorite meteorite : foundMeteorites) {
-            meteoriteDtoList.add(this.meteoriteToMeteoriteDtoConverter.convert(meteorite));
-        }
+        Page<MeteoriteDto> meteoriteDtoPage = meteoritePage
+                .map(this.meteoriteToMeteoriteDtoConverter::convert);
 
-        return new Result(true, StatusCode.SUCCESS, "Find All Success", meteoriteDtoList);
+        return new Result(true, StatusCode.SUCCESS, "Find All Success", meteoriteDtoPage);
     }
 
     // UC-16
