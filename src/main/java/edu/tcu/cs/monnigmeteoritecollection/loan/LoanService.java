@@ -1,6 +1,12 @@
 package edu.tcu.cs.monnigmeteoritecollection.loan;
 import java.util.List;
+import java.util.Map;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import edu.tcu.cs.monnigmeteoritecollection.system.exception.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
@@ -84,4 +90,38 @@ public class LoanService {
     public void delete(Integer loanId) {
         this.loanRepository.deleteById(loanId);
     }
+
+    // add paging ability - enhanced search
+    public Page<Loan> findByCriteria(Map<String, String> searchCriteria, Pageable pageable) {
+        Specification<Loan> spec = Specification.where(null);
+
+        if (StringUtils.hasLength(searchCriteria.get("name"))) {
+            spec = spec.and(LoanSpecs.containsName(searchCriteria.get("name")));
+        }
+
+        if (StringUtils.hasLength(searchCriteria.get("institution"))) {
+            spec = spec.and(LoanSpecs.containsInstitution(searchCriteria.get("institution")));
+        }
+
+
+        if (StringUtils.hasLength(searchCriteria.get("email"))) {
+            spec = spec.and(LoanSpecs.containsEmail(searchCriteria.get("email")));
+        }
+
+
+        if (StringUtils.hasLength(searchCriteria.get("phone"))) {
+            spec = spec.and(LoanSpecs.containsPhone(searchCriteria.get("phone")));
+        }
+
+        if (StringUtils.hasLength(searchCriteria.get("address"))) {
+            spec = spec.and(LoanSpecs.containsAddress(searchCriteria.get("address")));
+        }
+
+        if (StringUtils.hasLength(searchCriteria.get("isArchived"))) {
+            spec = spec.and(LoanSpecs.isArchived(searchCriteria.get("isArchived")));
+        }
+
+        return this.loanRepository.findAll(spec, pageable);
+    }
+
 }
