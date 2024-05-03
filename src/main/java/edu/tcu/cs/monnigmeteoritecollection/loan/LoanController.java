@@ -2,7 +2,10 @@ package edu.tcu.cs.monnigmeteoritecollection.loan;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,12 +51,12 @@ public class LoanController {
     public Result findAllLoans() {
         List<Loan> foundLoans = this.loanService.findAll();
 
-        List<LoanDto> loanDtoList = new ArrayList<>();
-        for (Loan loan : foundLoans) {
-            loanDtoList.add(this.loanToLoanDtoConverter.convert(loan));
+        List<LoanDto> loanDtoPage = new ArrayList<>();
+        for (Loan elem : foundLoans) {
+            loanDtoPage.add(this.loanToLoanDtoConverter.convert(elem));
         }
 
-        return new Result(true, StatusCode.SUCCESS, "Find All Loans Success", loanDtoList);
+        return new Result(true, StatusCode.SUCCESS, "Find All Loans Success", loanDtoPage);
     }
 
     // UC-11, UC-12
@@ -107,6 +110,13 @@ public class LoanController {
         LoanDto updatedLoanDto = this.loanToLoanDtoConverter.convert(updatedLoan);
 
         return new Result(true, StatusCode.SUCCESS, "Loan Update Success", updatedLoanDto);
+    }
+
+    @PostMapping("/search")
+    public Result findLoansByCriteria(@RequestBody Map<String, String> searchCriteria, Pageable pageable) {
+        Page<Loan> loanPage = this.loanService.findByCriteria(searchCriteria, pageable);
+        Page<LoanDto> loanDtoPage = loanPage.map(this.loanToLoanDtoConverter::convert);
+        return new Result(true, StatusCode.SUCCESS, "Search Success", loanDtoPage);
     }
 
 

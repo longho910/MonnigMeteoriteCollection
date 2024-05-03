@@ -70,12 +70,18 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/users/**").hasAuthority("ROLE_curator") // Protect the endpoint.
 
                 // Loan endpoints - PROTECTED
-                .requestMatchers(HttpMethod.GET, this.baseUrl + "/loans/**").permitAll()
+                // .requestMatchers(HttpMethod.GET, this.baseUrl + "/loans/**").permitAll()
                 // .requestMatchers(HttpMethod.GET, this.baseUrl + "/loans/**").hasAuthority("ROLE_curator")
+                // .requestMatchers(HttpMethod.PUT, this.baseUrl + "/loans/**").hasAuthority("ROLE_curator")
+                // .requestMatchers(HttpMethod.POST, this.baseUrl + "/loans/**").hasAuthority("ROLE_curator")
+                // .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/loans/**").hasAuthority("ROLE_curator")
 
-                .requestMatchers(HttpMethod.PUT, this.baseUrl + "/loans/**").hasAuthority("ROLE_curator")
-                .requestMatchers(HttpMethod.POST, this.baseUrl + "/loans/**").hasAuthority("ROLE_curator")
-                .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/loans/**").hasAuthority("ROLE_curator")
+                // Loan endpoints - remove protection
+                .requestMatchers(HttpMethod.GET, this.baseUrl + "/loans/**").permitAll()
+                .requestMatchers(HttpMethod.GET, this.baseUrl + "/loans/**").permitAll()
+                .requestMatchers(HttpMethod.PUT, this.baseUrl + "/loans/**").permitAll()
+                .requestMatchers(HttpMethod.POST, this.baseUrl + "/loans/**").permitAll()
+                .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/loans/**").permitAll()
 
                 // Meteorite endpoints
                 .requestMatchers(HttpMethod.GET, this.baseUrl + "/meteorites/onloan").hasAuthority("ROLE_curator") // protect onloans endpoint
