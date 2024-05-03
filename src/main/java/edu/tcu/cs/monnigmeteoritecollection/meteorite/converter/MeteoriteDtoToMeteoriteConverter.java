@@ -41,13 +41,21 @@ public class MeteoriteDtoToMeteoriteConverter implements Converter<MeteoriteDto,
         meteorite.setHowFound(source.howFound());
         
         meteorite.setSampleHistory(convertHistory(source.sampleHistories()));
-        meteorite.setLoan(this.loanRepository.findById(source.loan())
-            .orElseThrow(() -> new ObjectNotFoundException("Meteorite not found", String.valueOf(source.loan()))));
+        if (source.loan() != null) {
+            meteorite.setLoan(this.loanRepository.findById(source.loan())
+                    .orElseThrow(() -> new ObjectNotFoundException("Loan not found", String.valueOf(source.loan()))));
+        } else {
+            meteorite.setLoan(null);
+        }
+
 
         return meteorite;
     }
 
     private List<SampleHistory> convertHistory(List<Long> source) {
+        if (source == null) {
+            return new ArrayList<>(); // Return empty list if source is null
+        }
         List<SampleHistory> foundHistories = new ArrayList<>();
         for (Long elem : source) {
             foundHistories.add(this.sampleHistoryRepository.findById(elem)

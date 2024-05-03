@@ -39,6 +39,9 @@ public class MeteoriteToMeteoriteDtoConverter implements Converter<Meteorite, Me
     }
 
     private List<Long> convertHistory(List<SampleHistory> source) {
+        if (source == null) {
+            return new ArrayList<>(); // Return empty list if source is null
+        }
         List<Long> historyIdList = new ArrayList<>();
 
         for (SampleHistory elem : source) {

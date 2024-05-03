@@ -3,12 +3,7 @@ package edu.tcu.cs.monnigmeteoritecollection.meteorite;
 import edu.tcu.cs.monnigmeteoritecollection.loan.Loan;
 import edu.tcu.cs.monnigmeteoritecollection.samplehistory.SampleHistory;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -19,6 +14,7 @@ import java.util.List;
 public class Meteorite implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;            // internal ID used for queries
 
     // attributes given by sample data

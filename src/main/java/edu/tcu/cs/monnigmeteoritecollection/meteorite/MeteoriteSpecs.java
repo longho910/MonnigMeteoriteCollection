@@ -25,7 +25,7 @@ public class MeteoriteSpecs {
                 "%" + providedCountry.toLowerCase() + "%");
     }
     public static Specification<Meteorite> hasHowFound(String providedHowFound) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("howFound"), providedHowFound);
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(criteriaBuilder.lower(root.get("howFound")), providedHowFound.toLowerCase());
     }
 
 
