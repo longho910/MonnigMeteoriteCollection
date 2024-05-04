@@ -75,9 +75,10 @@ public class SecurityConfiguration {
                 // .requestMatchers(HttpMethod.PUT, this.baseUrl + "/loans/**").hasAuthority("ROLE_curator")
                 // .requestMatchers(HttpMethod.POST, this.baseUrl + "/loans/**").hasAuthority("ROLE_curator")
                 // .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/loans/**").hasAuthority("ROLE_curator")
+                // .requestMatchers(HttpMethod.GET, this.baseUrl + "/loans/archived").hasAuthority("ROLE_curator")
+
 
                 // Loan endpoints - remove protection
-                .requestMatchers(HttpMethod.GET, this.baseUrl + "/loans/**").permitAll()
                 .requestMatchers(HttpMethod.GET, this.baseUrl + "/loans/**").permitAll()
                 .requestMatchers(HttpMethod.PUT, this.baseUrl + "/loans/**").permitAll()
                 .requestMatchers(HttpMethod.POST, this.baseUrl + "/loans/**").permitAll()
@@ -87,7 +88,7 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.GET, this.baseUrl + "/meteorites/onloan").hasAuthority("ROLE_curator") // protect onloans endpoint
                 .requestMatchers(HttpMethod.GET, this.baseUrl + "/meteorites").permitAll()
                 .requestMatchers(HttpMethod.GET, this.baseUrl + "/meteorites/**").permitAll()
-                    .requestMatchers(HttpMethod.POST, this.baseUrl + "/meteorites/search").permitAll()
+                .requestMatchers(HttpMethod.POST, this.baseUrl + "/meteorites/search").permitAll()
                 .requestMatchers(HttpMethod.PUT, this.baseUrl + "/meteorites/**").hasAuthority("ROLE_curator")
                 .requestMatchers(HttpMethod.POST, this.baseUrl + "/meteorites/**").hasAuthority("ROLE_curator")
                 .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/meteorites/**").hasAuthority("ROLE_curator")

@@ -49,8 +49,8 @@ public class MeteoriteController {
     }
 
     // UC-16
-    @GetMapping("/onloan")
-    public Result findAllMeteoritesOnLoan() {
+    @GetMapping("/onloan/{loanId}")
+    public Result findAllMeteoritesOnLoan(@PathVariable String loanId) {
         List<Meteorite> foundMeteorites = this.meteoriteService.findAllOnLoan();
         List<MeteoriteDto> meteoriteDtoList = new ArrayList<>();
         

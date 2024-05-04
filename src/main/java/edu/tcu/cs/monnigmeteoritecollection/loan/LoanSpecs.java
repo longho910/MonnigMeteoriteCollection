@@ -28,7 +28,7 @@ public class LoanSpecs {
                 "%" + providedAddress.toLowerCase() + "%");
     }
 
-    public static Specification<Loan> isArchived(String providedArchived) {
+    public static Specification<Loan> isArchived(Boolean providedArchived) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("isArchived"), providedArchived);
     }
 

@@ -103,19 +103,22 @@ public class LoanController {
     // UC-13, UC-15
     // update loan -- this method also handles ARCHIVE LOAN (by sending an empty loanDto with only isArchived changed)
     // also use this method to add Meteorites to a given Loan
-    @PutMapping("/{loanId}")
-    public Result updateLoan(@PathVariable String loanId, @Validated @RequestBody LoanDto loanDto) {
+    @PutMapping
+    public Result updateLoan(@Validated @RequestBody LoanDto loanDto) {
         Loan update = this.loanDtoToLoanConverter.convert(loanDto);
+        String loanId = Integer.toString(loanDto.id());
         Loan updatedLoan = this.loanService.update(loanId, update);
         LoanDto updatedLoanDto = this.loanToLoanDtoConverter.convert(updatedLoan);
 
         return new Result(true, StatusCode.SUCCESS, "Loan Update Success", updatedLoanDto);
     }
 
+    // this method should not find archived loans by default
     @PostMapping("/search")
     public Result findLoansByCriteria(@RequestBody Map<String, String> searchCriteria, Pageable pageable) {
         Page<Loan> loanPage = this.loanService.findByCriteria(searchCriteria, pageable);
         Page<LoanDto> loanDtoPage = loanPage.map(this.loanToLoanDtoConverter::convert);
+
         return new Result(true, StatusCode.SUCCESS, "Search Success", loanDtoPage);
     }
 

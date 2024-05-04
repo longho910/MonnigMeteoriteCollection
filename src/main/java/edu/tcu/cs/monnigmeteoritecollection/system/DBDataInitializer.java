@@ -149,8 +149,8 @@ public class DBDataInitializer implements CommandLineRunner {
         loan1.setEmail("null@gmail.com");
         loan1.setPhone("999-999-9999");
         loan1.setAddress("1111 North Main Street, Fort Worth, Texas");
-        loan1.setLoanStartDate("04-24-2024");
-        loan1.setLoanDueDate("04-24-2025");
+        loan1.setLoanStartDate("2024-04-24");
+        loan1.setLoanDueDate("2025-04-24");
 
         loan1.setArchived(false);
         

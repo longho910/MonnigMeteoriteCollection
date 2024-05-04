@@ -80,8 +80,11 @@ public class LoanService {
         if (update.getNotes() != null) {
             oldLoan.setNotes(update.getNotes());
         }
-        if (update.getMeteorites() != null) {
+        if (!(update.getMeteorites().isEmpty())) {
             oldLoan.setMeteorites(update.getMeteorites());
+        }
+        if (update.isArchived() != null) {
+            oldLoan.setArchived(update.isArchived());
         }
 
         return this.loanRepository.save(oldLoan);
@@ -118,7 +121,13 @@ public class LoanService {
         }
 
         if (StringUtils.hasLength(searchCriteria.get("isArchived"))) {
-            spec = spec.and(LoanSpecs.isArchived(searchCriteria.get("isArchived")));
+            String providedStatus = searchCriteria.get("isArchived");
+            if (providedStatus.equals("true")) {
+                spec = spec.and(LoanSpecs.isArchived(true));
+            } else {
+                spec = spec.and(LoanSpecs.isArchived(false));
+            }
+
         }
 
         return this.loanRepository.findAll(spec, pageable);
