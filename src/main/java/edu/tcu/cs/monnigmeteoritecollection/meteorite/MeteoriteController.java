@@ -17,7 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("${api.endpoint.base-url}/meteorites")
-@CrossOrigin(origins = "*") // Allow requests from any origin
+// @CrossOrigin(origins = "*") // Allow requests from any origin
 public class MeteoriteController {
     private final MeteoriteService meteoriteService;
     private final MeteoriteToMeteoriteDtoConverter meteoriteToMeteoriteDtoConverter;

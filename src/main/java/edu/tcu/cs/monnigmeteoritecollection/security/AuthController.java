@@ -3,7 +3,6 @@ package edu.tcu.cs.monnigmeteoritecollection.security;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +11,7 @@ import edu.tcu.cs.monnigmeteoritecollection.system.*;
 
 @RestController
 @RequestMapping("${api.endpoint.base-url}/users")
-@CrossOrigin(origins = "*") // Allow requests from any origin
+// @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true") // Allow requests from any origin
 public class AuthController {
     private final AuthService authService;
 

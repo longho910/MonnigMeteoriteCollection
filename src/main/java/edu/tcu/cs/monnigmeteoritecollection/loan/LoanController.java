@@ -7,7 +7,6 @@ import java.util.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +24,7 @@ import edu.tcu.cs.monnigmeteoritecollection.loan.dto.LoanDto;
 
 @RestController
 @RequestMapping("${api.endpoint.base-url}/loans")
-@CrossOrigin(origins = "*") // Allow requests from any origin
+// @CrossOrigin(origins = "*") // Allow requests from any origin
 public class LoanController {
     private final LoanService loanService;
     private final LoanToLoanDtoConverter loanToLoanDtoConverter;
