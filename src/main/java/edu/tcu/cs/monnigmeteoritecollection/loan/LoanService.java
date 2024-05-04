@@ -8,6 +8,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import edu.tcu.cs.monnigmeteoritecollection.meteorite.Meteorite;
+import edu.tcu.cs.monnigmeteoritecollection.meteorite.MeteoriteRepository;
 import edu.tcu.cs.monnigmeteoritecollection.system.exception.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
 
@@ -16,9 +18,11 @@ import jakarta.transaction.Transactional;
 public class LoanService {
 
     private final LoanRepository loanRepository;
+    private final MeteoriteRepository meteoriteRepository;
 
-    public LoanService(LoanRepository loanRepository) {
+    public LoanService(LoanRepository loanRepository, MeteoriteRepository meteoriteRepository) {
         this.loanRepository = loanRepository;
+        this.meteoriteRepository = meteoriteRepository;
     }
 
     public List<Loan> findAll() {
@@ -53,6 +57,18 @@ public class LoanService {
     }
 
     public Loan save(Loan loan) {
+        // important to first check if any meteorites are coming in on this new loan
+        if ( ! (loan.getMeteorites().isEmpty())  ) {
+            for (Meteorite elem : loan.getMeteorites()) {
+                // first make sure this meteorite is in database
+                Meteorite old = this.meteoriteRepository.findById(Long.valueOf(elem.getId()))
+                    .orElseThrow(() -> new ObjectNotFoundException("meteorite", String.valueOf(elem.getId())));
+                // update the loan to equal the incoming
+                old.setLoan(loan);
+                this.meteoriteRepository.save(old);
+            }
+        }
+
         return this.loanRepository.save(loan);
     }
 
