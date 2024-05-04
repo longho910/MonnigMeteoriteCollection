@@ -122,10 +122,10 @@ public class LoanService {
 
         if (StringUtils.hasLength(searchCriteria.get("isArchived"))) {
             String providedStatus = searchCriteria.get("isArchived");
-            if (providedStatus.equals("true")) {
-                spec = spec.and(LoanSpecs.isArchived(true));
-            } else {
+            if (providedStatus.equals("false")) {
                 spec = spec.and(LoanSpecs.isArchived(false));
+            } else {
+                // if we don't mark isArchived to be false, then we want to include BOTH archived and non-archived
             }
 
         }

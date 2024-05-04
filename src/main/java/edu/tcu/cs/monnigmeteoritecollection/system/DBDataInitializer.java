@@ -168,6 +168,7 @@ public class DBDataInitializer implements CommandLineRunner {
         // add Meteorite List to this loan - containing meteorite with id == 1
         List<Meteorite> meteoriteList = new ArrayList<>();
         meteoriteList.add(meteoriteService.findById(1L));
+        meteoriteList.add(meteoriteService.findById(2L));
         emptyLoan.setMeteorites(meteoriteList);
         
         loanService.update(String.valueOf(loanId), emptyLoan);

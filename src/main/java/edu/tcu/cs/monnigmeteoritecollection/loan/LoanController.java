@@ -116,6 +116,7 @@ public class LoanController {
     // this method should not find archived loans by default
     @PostMapping("/search")
     public Result findLoansByCriteria(@RequestBody Map<String, String> searchCriteria, Pageable pageable) {
+
         Page<Loan> loanPage = this.loanService.findByCriteria(searchCriteria, pageable);
         Page<LoanDto> loanDtoPage = loanPage.map(this.loanToLoanDtoConverter::convert);
 

@@ -50,13 +50,17 @@ public class MeteoriteController {
 
     // UC-16
     @GetMapping("/onloan/{loanId}")
-    public Result findAllMeteoritesOnLoan(@PathVariable String loanId) {
+    public Result findAllMeteoritesOnLoan(@PathVariable("loanId") Integer givenLoanId) {
         List<Meteorite> foundMeteorites = this.meteoriteService.findAllOnLoan();
         List<MeteoriteDto> meteoriteDtoList = new ArrayList<>();
+        Integer loanId = givenLoanId;
         
+        // convert into DTOs, and drop any meteorites not on this loan
         for (Meteorite meteorite : foundMeteorites) {
-            meteoriteDtoList.add(this.meteoriteToMeteoriteDtoConverter.convert(meteorite));
-        }
+            if (meteorite.getLoan().getId() == loanId) {
+                meteoriteDtoList.add(this.meteoriteToMeteoriteDtoConverter.convert(meteorite));
+            }
+        }        
 
         return new Result(true, StatusCode.SUCCESS, "Find All On Loan Success", meteoriteDtoList);
     }
