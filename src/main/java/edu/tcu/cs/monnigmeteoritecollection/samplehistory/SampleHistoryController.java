@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import edu.tcu.cs.monnigmeteoritecollection.samplehistory.converter.*;
 import edu.tcu.cs.monnigmeteoritecollection.samplehistory.dto.SampleHistoryDto;
@@ -20,6 +21,7 @@ import edu.tcu.cs.monnigmeteoritecollection.system.StatusCode;
 
 import jakarta.validation.Valid;
 
+@RestController
 @RequestMapping("${api.endpoint.base-url}/histories")
 @CrossOrigin(origins = "*") // Allow requests from any origin
 public class SampleHistoryController {
@@ -48,9 +50,10 @@ public class SampleHistoryController {
         return new Result(true, StatusCode.SUCCESS, "Add Success", savedHistoryDto);
     }
 
+
     // R - find all histories for a given meteorite
     @GetMapping("/mid/{meteoriteId}")
-    public Result findAllHistoriesForMeteorite(@PathVariable String meteoriteId) {
+    public Result findAllHistoriesForMeteorite(@PathVariable("meteoriteId") Long meteoriteId) {
         List<SampleHistory> foundHistories = this.sampleHistoryService.findAllHistoryForMeteorite(meteoriteId);
 
         List<SampleHistoryDto> historyDtoList = new ArrayList<>();

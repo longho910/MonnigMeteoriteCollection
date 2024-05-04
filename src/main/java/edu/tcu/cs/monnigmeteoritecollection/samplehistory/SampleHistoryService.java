@@ -31,7 +31,7 @@ public class SampleHistoryService {
     }
 
     // R - show all histories associated with a single meteorite
-    public List<SampleHistory> findAllHistoryForMeteorite(String meteoriteId) {
+    public List<SampleHistory> findAllHistoryForMeteorite(Long meteoriteId) {
         List<SampleHistory> historyList = this.sampleHistoryRepository.findAll();
         List<SampleHistory> truncatedList = new ArrayList<>();
         for (SampleHistory elem : historyList) {

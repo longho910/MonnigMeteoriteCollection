@@ -22,13 +22,17 @@ public class SampleHistoryDtoToSampleHistoryConverter implements Converter<Sampl
     public SampleHistory convert(SampleHistoryDto source) {
         SampleHistory sampleHistory = new SampleHistory();
 
+        sampleHistory.setId(source.id());
+
         sampleHistory.setDate(source.date());
         sampleHistory.setCategory(source.category());
         sampleHistory.setNotes(source.notes());
         
-        sampleHistory.setMeteorite(this.meteoriteRepository.findById(source.meteorite())
-            .orElseThrow(() -> new ObjectNotFoundException("Meteorite not found", String.valueOf(source.meteorite()))));
-
+        if (source.meteorite() != null) {
+            sampleHistory.setMeteorite(this.meteoriteRepository.findById(source.meteorite())
+                .orElseThrow(() -> new ObjectNotFoundException("Meteorite not found", String.valueOf(source.meteorite()))));
+        }
+        
         return sampleHistory;
     }
 }

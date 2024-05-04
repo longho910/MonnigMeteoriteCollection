@@ -11,7 +11,7 @@ import jakarta.persistence.ManyToOne;
 public class SampleHistory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -28,6 +28,10 @@ public class SampleHistory {
     // getters and setters -------------------------------------------------------------------------------------------------
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long newId) {
+        this.id = newId;
     }
 
     public String getDate() {

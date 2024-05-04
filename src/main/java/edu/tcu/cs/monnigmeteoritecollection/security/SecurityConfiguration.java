@@ -94,10 +94,16 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/meteorites/**").hasAuthority("ROLE_curator")
 
                 // SampleHistory endpoints
+                // .requestMatchers(HttpMethod.GET, this.baseUrl + "/histories/**").permitAll()
+                // .requestMatchers(HttpMethod.PUT, this.baseUrl + "/histories/**").hasAuthority("ROLE_curator")
+                // .requestMatchers(HttpMethod.POST, this.baseUrl + "/histories/**").hasAuthority("ROLE_curator")
+                // .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/histories/**").hasAuthority("ROLE_curator")
+
+                // History endpoints, remove protection
                 .requestMatchers(HttpMethod.GET, this.baseUrl + "/histories/**").permitAll()
-                .requestMatchers(HttpMethod.PUT, this.baseUrl + "/histories/**").hasAuthority("ROLE_curator")
-                .requestMatchers(HttpMethod.POST, this.baseUrl + "/histories/**").hasAuthority("ROLE_curator")
-                .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/histories/**").hasAuthority("ROLE_curator")
+                .requestMatchers(HttpMethod.PUT, this.baseUrl + "/histories/**").permitAll()
+                .requestMatchers(HttpMethod.POST, this.baseUrl + "/histories/**").permitAll()
+                .requestMatchers(HttpMethod.DELETE, this.baseUrl + "/histories/**").permitAll()
 
                 .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll() //makes H2 public
 
